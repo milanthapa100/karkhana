@@ -1,0 +1,11 @@
+{
+  "categories": {
+    "update": {
+      "directory": "content/updates",
+      "allowedStatuses": ["draft", "in-progress", "done", "published"],
+      "requiredSections": ["Description", "Progress", "Next Steps"]
+    }
+  },
+  "dateFormat": "YYYY-MM-DD",
+  "filenamePattern": "^[a-z0-9]+(-[a-z0-9]+)*\\.md$"
+}

@@ -1,0 +1,33 @@
+name: Validate Content
+
+on:
+  pull_request:
+    branches: [main]
+    paths:
+      - "content/**"
+      - "scripts/**"
+      - "schema.json"
+      - ".github/workflows/validate.yml"
+
+jobs:
+  validate:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      pull-requests: write
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: 20
+
+      - name: Validate all content
+        run: |
+          if [ -d content ]; then
+            node scripts/validate.mjs
+          else
+            echo "No content/ directory present; nothing to validate."
+          fi
