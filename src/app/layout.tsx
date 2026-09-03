@@ -15,9 +15,15 @@ export default function RootLayout({
     <html lang="en">
       <body>
         <header className="site-header">
-          <a href="/" className="brand">
-            Karkhana
-          </a>
+          <nav className="nav">
+            <a href="/" className="brand">
+              Karkhana
+            </a>
+            <div className="nav-links">
+              <a href="/">Updates</a>
+              <a href="/sops">SOPs</a>
+            </div>
+          </nav>
         </header>
         <main className="container">{children}</main>
         <footer className="site-footer">

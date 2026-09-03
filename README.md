@@ -16,6 +16,18 @@ Write Markdown → Branch → Pull Request → Validation → Review → Merge �
 - The website (Next.js) reads the merged Markdown from GitHub and renders it.
 - Validation runs automatically on every Pull Request.
 
+## Content types
+
+| Type            | Location           | Purpose                                             |
+|-----------------|--------------------|-----------------------------------------------------|
+| `update`        | `content/updates/` | Progress reports and announcements                  |
+| `sop`           | `content/sops/`    | Standard Operating Procedures with a step checklist |
+
+SOP files are standard Markdown. They use the frontmatter fields `title`,
+`author`, `date`, `category`, `status`, `summary`, and `owner`, and the body
+contains a `## Steps` section whose checklist items render as tick-boxes on
+the website.
+
 ## Repository layout
 
 ```

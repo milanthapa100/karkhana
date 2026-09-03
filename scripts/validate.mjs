@@ -134,6 +134,13 @@ function validateFile(file) {
         `"status" must be one of: ${catConf.allowedStatuses.join(", ")} (got "${data.status}")`,
       );
     }
+    if (catConf.requiredFields) {
+      for (const field of catConf.requiredFields) {
+        if (data[field] === undefined || data[field] === "") {
+          errors.push(`missing required frontmatter field: "${field}"`);
+        }
+      }
+    }
   }
 
   if (data.date !== undefined && data.date !== "" && !isRealDate(data.date)) {
@@ -155,6 +162,13 @@ function validateFile(file) {
       const headingRe = new RegExp(`^##\\s+${section}\\s*$`, "m");
       if (!headingRe.test(body)) {
         errors.push(`missing required section: "## ${section}"`);
+      }
+    }
+    if (category === "sop") {
+      if (!/^-\s*\[[ xX]\]\s+.+$/m.test(body)) {
+        errors.push(
+          '"## Steps" must contain at least one checklist item starting with "- [ ]"',
+        );
       }
     }
   }

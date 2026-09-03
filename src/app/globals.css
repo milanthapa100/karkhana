@@ -26,6 +26,29 @@ body {
   padding: 0.75rem 1.5rem;
 }
 
+.nav {
+  max-width: 760px;
+  margin: 0 auto;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.nav-links {
+  display: flex;
+  gap: 1rem;
+}
+
+.nav-links a {
+  color: var(--fg);
+  text-decoration: none;
+  font-size: 0.95rem;
+}
+
+.nav-links a:hover {
+  color: var(--accent);
+}
+
 .brand {
   font-weight: 700;
   font-size: 1.25rem;
@@ -79,6 +102,18 @@ body {
   font-size: 0.85rem;
 }
 
+.card-summary {
+  color: var(--muted);
+  font-size: 0.9rem;
+  margin: 0.5rem 0;
+}
+
+.summary {
+  color: var(--muted);
+  font-size: 1rem;
+  margin: 0.75rem 0 0;
+}
+
 .badge {
   display: inline-block;
   padding: 0.1rem 0.5rem;
@@ -118,6 +153,16 @@ body {
 
 .prose li {
   margin: 0.4rem 0;
+}
+
+.prose input[type="checkbox"] {
+  margin-right: 0.5rem;
+  transform: scale(1.15);
+}
+
+.prose li:has(> input[type="checkbox"]) {
+  list-style: none;
+  margin-left: -1.25rem;
 }
 
 .back {
