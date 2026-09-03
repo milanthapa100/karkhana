@@ -51,3 +51,4 @@ npm run validate
 - [REQUIREMENTS.md](REQUIREMENTS.md) — the original system specification.
 - [BUILD_PLAN.md](BUILD_PLAN.md) — detailed build plan and architecture.
 - [CONTRIBUTING.md](CONTRIBUTING.md) — how to contribute content.
+- [SETUP.md](SETUP.md) — how to deploy the site and verify the pipeline.
