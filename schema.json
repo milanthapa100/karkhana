@@ -4,6 +4,12 @@
       "directory": "content/updates",
       "allowedStatuses": ["draft", "in-progress", "done", "published"],
       "requiredSections": ["Description", "Progress", "Next Steps"]
+    },
+    "sop": {
+      "directory": "content/sops",
+      "allowedStatuses": ["draft", "active", "review", "archived"],
+      "requiredSections": ["Description", "Steps", "Related"],
+      "requiredFields": ["summary", "owner"]
     }
   },
   "dateFormat": "YYYY-MM-DD",
