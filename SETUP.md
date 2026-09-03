@@ -17,9 +17,20 @@ content appears automatically.
 1. Sign up / log in at https://vercel.com (recommend connecting your GitHub
    account).
 2. **Add New → Project → Import** the `karkhana` repository.
-3. Vercel auto-detects the Next.js framework. Leave **Root Directory** as `/`.
-4. **Deploy.** It produces a URL like `https://karkhana.vercel.app`.
-5. (Optional) Add a custom domain in **Settings → Domains**.
+3. **Important — set the Framework to Next.js.** When the project was first
+   imported, `main` had no `package.json`, so Vercel did **not** detect Next.js
+   and set the project up as a *static* site (this is why the first deploys
+   returned empty/404). Fix it in the project:
+
+   - **Settings → General → Framework Preset → Next.js**
+   - Ensure **Root Directory** is `/` (leave blank / root).
+   - Build Command should default to `next build`, Output to `.next`.
+
+4. **Redeploy.** Open **Deployments → … → Redeploy** (or push a commit to
+   `main`).
+5. The site appears at `https://<project>.vercel.app`. On the home page you
+   should see the `GitHub Content System` update card.
+6. (Optional) Add a custom domain in **Settings → Domains**.
 
 ### After a merge
 

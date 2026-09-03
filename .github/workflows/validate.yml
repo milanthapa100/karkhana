@@ -18,27 +18,16 @@ jobs:
     steps:
       - name: Checkout
         uses: actions/checkout@v4
-        with:
-          fetch-depth: 0
 
       - name: Setup Node
         uses: actions/setup-node@v4
         with:
           node-version: 20
 
-      - name: Get changed .md files
-        id: changed
+      - name: Validate all content
         run: |
-          BASE="origin/${{ github.event.pull_request.base.ref }}"
-          git fetch --no-tags origin "${{ github.event.pull_request.base.ref }}"
-          FILES="$(git diff --name-only "$BASE...${{ github.event.pull_request.head.sha }}" -- 'content/**/*.md' | tr '\n' ',')"
-          echo "files=${FILES%,}" >> "$GITHUB_OUTPUT"
-
-      - name: Validate changed content
-        run: |
-          FILES="${{ steps.changed.outputs.files }}"
-          if [ -z "$FILES" ]; then
-            echo "No Markdown files changed; nothing to validate."
+          if [ -d content ]; then
+            node scripts/validate.mjs
           else
-            node scripts/validate.mjs "$FILES"
+            echo "No content/ directory present; nothing to validate."
           fi
