@@ -1,4 +1,4 @@
-import { readFileSync, readdirSync } from "node:fs";
+import { readFileSync, readdirSync, existsSync } from "node:fs";
 import { join } from "node:path";
 import matter from "gray-matter";
 
@@ -24,7 +24,7 @@ function toIsoDate(value: unknown): string {
 }
 
 export function listSops(): Sop[] {
-  if (!readdirSync(join(process.cwd(), "content")).includes("sops")) {
+  if (!existsSync(SOP_DIR)) {
     return [];
   }
   const files = readdirSync(SOP_DIR).filter((f) => f.endsWith(".md"));
