@@ -33,12 +33,13 @@ the website.
 ```
 karkhana/
 ├── content/                 # Markdown content (source of truth)
-│   └── updates/
+│   ├── updates/
+│   └── sops/
+├── public/                  # static assets (logo, etc.)
 ├── src/                     # Next.js website source
 ├── scripts/                 # local validation helpers
 ├── .github/workflows/       # CI: validate + deploy
-├── schema.json              # content validation schema
-└── REQUIREMENTS.md          # original system requirements
+└── schema.json              # content validation schema
 ```
 
 ## Quick start
@@ -60,7 +61,4 @@ npm run validate
 
 ## Docs
 
-- [REQUIREMENTS.md](REQUIREMENTS.md) — the original system specification.
-- [BUILD_PLAN.md](BUILD_PLAN.md) — detailed build plan and architecture.
 - [CONTRIBUTING.md](CONTRIBUTING.md) — how to contribute content.
-- [SETUP.md](SETUP.md) — how to deploy the site and verify the pipeline.

@@ -1,10 +1,12 @@
-import Link from "next/link";
 import { notFound } from "next/navigation";
-import ReactMarkdown from "react-markdown";
-import remarkGfm from "remark-gfm";
 import { getUpdate, listUpdates } from "@/lib/content";
 import { formatDate } from "@/lib/date";
+import { readingMinutes } from "@/lib/reading";
+import { initials, avatarColor } from "@/lib/avatar";
 import { StatusBadge } from "@/components/StatusBadge";
+import { Breadcrumbs } from "@/components/Breadcrumbs";
+import { DocsLayout } from "@/components/DocsLayout";
+import { Prose } from "@/components/Prose";
 
 export const metadata = {
   title: "Updates",
@@ -23,33 +25,77 @@ export default async function UpdatePage({
   const update = getUpdate(slug);
   if (!update) notFound();
 
+  const all = listUpdates();
+  const mins = readingMinutes(update.body);
+  const dateText = formatDate(update.date);
+
+  const links = all.map((u) => ({
+    href: `/updates/${u.slug}`,
+    label: u.title,
+  }));
+
   return (
-    <article className="max-w-3xl">
-      <Link
-        href="/"
-        className="mb-6 inline-flex items-center gap-1.5 text-sm font-medium text-ink-500 transition hover:text-brand-700 dark:text-ink-400 dark:hover:text-brand-300"
-      >
-        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
-          <path d="M19 12H5M11 18l-6-6 6-6" />
-        </svg>
-        All updates
-      </Link>
+    <div className="mx-auto max-w-7xl">
+      <Breadcrumbs
+        crumbs={[
+          { label: "Updates", href: "/" },
+          { label: update.title },
+        ]}
+      />
 
-      <header className="mb-8">
-        <h1 className="font-sans text-3xl font-semibold leading-tight tracking-tight text-ink-900 sm:text-4xl dark:text-white">
-          {update.title}
-        </h1>
-        <div className="mt-4 flex flex-wrap items-center gap-x-4 gap-y-2 text-sm text-ink-500 dark:text-ink-400">
-          <span>{update.author}</span>
-          <span className="h-1 w-1 rounded-full bg-ink-300 dark:bg-ink-600" />
-          <span>{formatDate(update.date)}</span>
-          <StatusBadge status={update.status} />
-        </div>
-      </header>
+      <div className="mt-6">
+        <DocsLayout
+          section="Updates"
+          sectionHref="/"
+          links={links}
+        >
+          <article className="overflow-hidden rounded-3xl border border-ink-200/80 bg-white shadow-sm dark:border-ink-800 dark:bg-ink-900">
+            {/* Header hero */}
+            <header className="relative px-6 pb-8 pt-10 sm:px-10 sm:pt-14">
+              <div
+                aria-hidden="true"
+                className="pointer-events-none absolute inset-x-0 top-0 h-44 bg-brand-50 dark:bg-brand-500/10 sm:h-56"
+              />
+              <div className="relative">
+                <h1 className="font-display text-3xl font-semibold leading-tight tracking-tight text-ink-900 sm:text-4xl lg:text-[2.75rem] dark:text-white">
+                  {update.title}
+                </h1>
 
-      <div className="prose prose-ink max-w-none prose-headings:font-sans prose-headings:tracking-tight prose-h2:mt-10 prose-p:leading-relaxed dark:prose-invert">
-        <ReactMarkdown remarkPlugins={[remarkGfm]}>{update.body}</ReactMarkdown>
+                {/* Byline */}
+                <div className="mt-6 flex flex-wrap items-center gap-x-4 gap-y-3">
+                  <div
+                    className={`flex h-11 w-11 items-center justify-center rounded-full font-display text-sm font-semibold text-white shadow-sm ${avatarColor(
+                      update.author,
+                    )}`}
+                    aria-hidden="true"
+                  >
+                    {initials(update.author) || "U"}
+                  </div>
+                  <div className="flex flex-col">
+                    <span className="text-sm font-medium text-ink-900 dark:text-white">
+                      {update.author || "Karkhana Team"}
+                    </span>
+                    <span className="text-xs text-ink-500 dark:text-ink-400">
+                      {dateText}
+                      {mins > 1 ? ` · ${mins} min read` : ""}
+                    </span>
+                  </div>
+                  <div className="ml-auto">
+                    <StatusBadge status={update.status} />
+                  </div>
+                </div>
+              </div>
+            </header>
+
+            {/* Content */}
+            <div className="px-6 pb-10 sm:px-10">
+              <div className="border-t border-ink-200 pt-8 dark:border-ink-800">
+                <Prose markdown={update.body} />
+              </div>
+            </div>
+          </article>
+        </DocsLayout>
       </div>
-    </article>
+    </div>
   );
 }

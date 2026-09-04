@@ -7,9 +7,11 @@
 @theme {
   --font-sans: "Poppins", ui-sans-serif, system-ui, -apple-system, "Segoe UI",
     Roboto, "Helvetica Neue", Arial, sans-serif;
+  --font-display: "Sora", "Poppins", ui-sans-serif, system-ui, -apple-system,
+    "Segoe UI", Arial, sans-serif;
   --font-serif: "Poppins", ui-sans-serif, system-ui, "Segoe UI", sans-serif;
 
-  /* Brand scale */
+  /* Brand (emerald) scale */
   --color-brand-50: #ecfdf5;
   --color-brand-100: #d1fae5;
   --color-brand-200: #a7f3d0;
@@ -20,6 +22,18 @@
   --color-brand-700: #047857;
   --color-brand-800: #065f46;
   --color-brand-900: #064e3b;
+
+  /* Teal (secondary accent) */
+  --color-accent-200: #99f6e4;
+  --color-accent-300: #5eead4;
+  --color-accent-400: #2dd4bf;
+  --color-accent-500: #14b8a6;
+  --color-accent-600: #0d9488;
+
+  /* Sky (tertiary accent) */
+  --color-sky-deep-400: #38bdf8;
+  --color-sky-deep-500: #0ea5e9;
+  --color-sky-deep-600: #0284c7;
 
   /* Ink (neutral) scale */
   --color-ink-50: #f8fafc;
@@ -33,12 +47,17 @@
   --color-ink-800: #1e293b;
   --color-ink-900: #0f172a;
   --color-ink-950: #020617;
+
 }
 
 @layer base {
   html {
     scroll-behavior: smooth;
     -webkit-text-size-adjust: 100%;
+    scrollbar-color: var(--color-ink-300) transparent;
+  }
+  html.dark {
+    scrollbar-color: var(--color-ink-700) transparent;
   }
 
   body {
@@ -48,5 +67,78 @@
 
   ::selection {
     @apply bg-brand-200 text-ink-900;
+  }
+  .dark ::selection {
+    @apply bg-brand-500/40 text-white;
+  }
+
+  /* Accessible focus ring for all interactive elements */
+  :focus-visible {
+    outline: 2px solid var(--color-brand-500);
+    outline-offset: 2px;
+  }
+  .dark :focus-visible {
+    outline-color: var(--color-brand-400);
+  }
+
+  /* Thin, theme-aware scrollbar */
+  ::-webkit-scrollbar {
+    width: 10px;
+    height: 10px;
+  }
+  ::-webkit-scrollbar-track {
+    background: transparent;
+  }
+  ::-webkit-scrollbar-thumb {
+    background: var(--color-ink-300);
+    border-radius: 9999px;
+    border: 2px solid transparent;
+    background-clip: content-box;
+  }
+  .dark ::-webkit-scrollbar-thumb {
+    background: var(--color-ink-700);
+    background-clip: content-box;
+    border: 2px solid transparent;
+  }
+}
+
+@layer utilities {
+  /* Glass surface */
+  .glass {
+    @apply border border-white/60 bg-white/70 backdrop-blur-xl dark:border-white/10 dark:bg-white/5;
+  }
+
+  /* Card hover lift */
+  .card-hover {
+    @apply transition-all duration-300 hover:-translate-y-1 hover:shadow-xl;
+  }
+}
+
+@layer base {
+  /* Reduced motion */
+  @media (prefers-reduced-motion: reduce) {
+    html {
+      scroll-behavior: auto;
+    }
+    *,
+    *::before,
+    *::after {
+      animation-duration: 0.01ms !important;
+      animation-iteration-count: 1 !important;
+      transition-duration: 0.01ms !important;
+    }
+  }
+}
+
+@media print {
+  body {
+    background: white !important;
+    color: black !important;
+  }
+  .no-print {
+    display: none !important;
+  }
+  .print-break-avoid {
+    break-inside: avoid;
   }
 }

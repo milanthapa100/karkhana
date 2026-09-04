@@ -33,6 +33,7 @@ export function ThemeToggle() {
       aria-checked={dark}
       aria-label={dark ? "Switch to light mode" : "Switch to dark mode"}
       onClick={() => setDark((d) => !d)}
+      style={{ cursor: "default" }}
       className="inline-flex h-9 w-9 items-center justify-center text-ink-600 transition hover:text-ink-900 dark:text-ink-300 dark:hover:text-white"
     >
       {dark ? (

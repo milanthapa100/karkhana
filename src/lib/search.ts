@@ -8,6 +8,8 @@ export function buildSearchIndex(): SearchItem[] {
     href: `/updates/${u.slug}`,
     type: "update",
     snippet: `${u.author} · ${u.status}`,
+    status: u.status,
+    date: u.date,
   }));
 
   const sops: SearchItem[] = listSops().map((s) => ({
@@ -15,6 +17,8 @@ export function buildSearchIndex(): SearchItem[] {
     href: `/sops/${s.slug}`,
     type: "sop",
     snippet: s.summary || s.status,
+    status: s.status,
+    date: s.date,
   }));
 
   return [...updates, ...sops];

@@ -7,33 +7,36 @@ export default function SopCard({ sop }: { sop: Sop }) {
   return (
     <Link
       href={`/sops/${sop.slug}`}
-      className="group relative flex flex-col gap-2 rounded-2xl border border-ink-200 bg-white p-6 shadow-sm transition-all duration-200 hover:-translate-y-0.5 hover:border-brand-300 hover:shadow-lg dark:border-ink-800 dark:bg-ink-900 dark:hover:border-brand-700"
+      className="group relative flex flex-col gap-2 overflow-hidden rounded-2xl border border-ink-200 bg-white p-6 shadow-sm dark:border-ink-800 dark:bg-ink-900"
     >
-      <div className="flex items-start justify-between gap-3">
-        <h2 className="text-lg font-semibold tracking-tight text-ink-900 group-hover:text-brand-700 dark:text-white dark:group-hover:text-brand-300">
+      <div className="relative flex items-start justify-between gap-3">
+        <h2 className="line-clamp-2 font-display text-lg font-semibold tracking-tight text-ink-900 group-hover:text-accent-600 dark:text-white dark:group-hover:text-accent-300">
           {sop.title}
         </h2>
-        <svg
-          className="h-5 w-5 shrink-0 text-ink-300 transition group-hover:translate-x-1 group-hover:text-brand-600 dark:text-ink-600"
-          viewBox="0 0 24 24"
-          fill="none"
-          stroke="currentColor"
-          strokeWidth="2"
-          strokeLinecap="round"
-          strokeLinejoin="round"
-          aria-hidden="true"
-        >
-          <path d="M5 12h14M13 6l6 6-6 6" />
-        </svg>
+        <span className="inline-flex h-7 w-7 shrink-0 items-center justify-center rounded-lg bg-ink-100 text-ink-400 transition group-hover:bg-accent-100 group-hover:text-accent-600 dark:bg-ink-800 dark:text-ink-400 dark:group-hover:bg-accent-500/20 dark:group-hover:text-accent-300">
+          <svg
+            className="h-4 w-4"
+            viewBox="0 0 24 24"
+            fill="none"
+            stroke="currentColor"
+            strokeWidth="2"
+            strokeLinecap="round"
+            strokeLinejoin="round"
+            aria-hidden="true"
+          >
+            <path d="M9 12l2 2 4-4" />
+            <circle cx="12" cy="12" r="9" />
+          </svg>
+        </span>
       </div>
       {sop.summary && (
-        <p className="text-sm leading-relaxed text-ink-600 dark:text-ink-300">
+        <p className="relative line-clamp-3 text-sm leading-relaxed text-ink-600 dark:text-ink-300">
           {sop.summary}
         </p>
       )}
-      <div className="mt-1 flex items-center justify-between">
+      <div className="relative mt-1 flex items-center justify-between">
         <p className="text-xs text-ink-400 dark:text-ink-500">
-          Owner: {sop.owner} &middot; {formatDate(sop.date)}
+          {sop.owner} &middot; {formatDate(sop.date)}
         </p>
         <StatusBadge status={sop.status} />
       </div>

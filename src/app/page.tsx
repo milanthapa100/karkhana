@@ -1,74 +1,84 @@
 import { listUpdates } from "@/lib/content";
-import { buildSearchIndex } from "@/lib/search";
-import UpdateCard from "@/components/UpdateCard";
-import { Search } from "@/components/Search";
-
+import { listSops } from "@/lib/sop";
+import { EmptyState } from "@/components/EmptyState";
+import { FilterableGrid } from "@/components/FilterableGrid";
+import { Logo } from "@/components/Logo";
 export const metadata = {
   title: "Updates",
   description: "Recent content published by the Karkhana team.",
 };
 
+const UPDATE_STATUSES = ["draft", "in-progress", "done", "published"];
+
 export default function HomePage() {
   const updates = listUpdates();
-  const index = buildSearchIndex();
+  const sops = listSops();
+  const statuses = Array.from(
+    new Set(updates.map((u) => u.status ?? "").filter(Boolean)),
+  ).filter((s) => UPDATE_STATUSES.includes(s));
 
   return (
-    <div className="flex flex-col gap-12">
+    <div className="flex flex-col gap-14">
       <section className="relative overflow-hidden rounded-3xl border border-ink-200/70 bg-white p-8 sm:p-12 dark:border-ink-800 dark:bg-ink-900">
-        <div
-          className="pointer-events-none absolute inset-0 opacity-[0.06]"
-          style={{
-            backgroundImage:
-              "radial-gradient(circle at 1px 1px, #059669 1px, transparent 0)",
-            backgroundSize: "28px 28px",
-          }}
-          aria-hidden="true"
-        />
         <div className="relative">
-          <p className="mb-3 inline-flex items-center gap-2 rounded-full border border-brand-200 bg-brand-50 px-3 py-1 text-xs font-medium text-brand-700 dark:border-brand-500/30 dark:bg-brand-500/10 dark:text-brand-300">
-            <span className="h-1.5 w-1.5 rounded-full bg-brand-500" />
-            Karkhana Content System
+          <p className="mb-4 inline-flex items-center gap-2.5 rounded-full border border-ink-200 bg-white px-3.5 py-1.5 text-sm font-semibold text-ink-800 shadow-sm dark:border-ink-700 dark:bg-ink-800 dark:text-white">
+            <Logo height={14} />
+            DPK Content System
           </p>
-          <h1 className="max-w-2xl font-sans text-3xl font-semibold tracking-tight text-ink-900 sm:text-4xl dark:text-white">
-            Where the team&apos;s work becomes one living surface.
+          <h1 className="max-w-2xl font-display text-3xl font-semibold tracking-tight text-ink-900 sm:text-5xl dark:text-white">
+            Where the team&apos;s work becomes{" "}
+            <span className="text-brand-600 dark:text-brand-400">
+              one living surface.
+            </span>
           </h1>
-          <p className="mt-3 max-w-xl text-base leading-relaxed text-ink-600 dark:text-ink-300">
+          <p className="mt-4 max-w-xl text-base leading-relaxed text-ink-600 dark:text-ink-300">
             Content-driven updates and standard operating procedures — written in
             Markdown, reviewed on GitHub, published automatically.
           </p>
-          <div className="mt-6">
-            <Search items={index} />
+
+          <div className="mt-8 grid max-w-lg grid-cols-1 gap-4 min-[360px]:grid-cols-3">
+            <div className="rounded-2xl border border-ink-200/70 bg-white/70 p-4 backdrop-blur dark:border-ink-700 dark:bg-ink-800/40">
+              <p className="font-display text-2xl font-semibold text-brand-600 dark:text-brand-400">
+                {updates.length}
+              </p>
+              <p className="mt-0.5 text-xs text-ink-500 dark:text-ink-400">
+                Updates
+              </p>
+            </div>
+            <div className="rounded-2xl border border-ink-200/70 bg-white/70 p-4 backdrop-blur dark:border-ink-700 dark:bg-ink-800/40">
+              <p className="font-display text-2xl font-semibold text-accent-500 dark:text-accent-300">
+                {sops.length}
+              </p>
+              <p className="mt-0.5 text-xs text-ink-500 dark:text-ink-400">SOPs</p>
+            </div>
+            <div className="rounded-2xl border border-ink-200/70 bg-white/70 p-4 backdrop-blur dark:border-ink-700 dark:bg-ink-800/40">
+              <p className="font-display text-2xl font-semibold text-sky-deep-500 dark:text-sky-deep-400">
+                GitHub
+              </p>
+              <p className="mt-0.5 text-xs text-ink-500 dark:text-ink-400">Workflow</p>
+            </div>
           </div>
         </div>
       </section>
 
       <section>
-        <div className="mb-5 flex items-end justify-between">
-          <div>
-            <h2 className="font-sans text-2xl font-semibold tracking-tight text-ink-900 dark:text-white">
-              Updates
-            </h2>
-            <p className="mt-1 text-sm text-ink-500 dark:text-ink-400">
-              {updates.length} published
-              {updates.length === 1 ? " update" : " updates"}.
-            </p>
-          </div>
-        </div>
-
         {updates.length === 0 ? (
-          <p className="rounded-2xl border border-dashed border-ink-300 bg-white p-10 text-center text-ink-500 dark:border-ink-700 dark:bg-ink-900 dark:text-ink-400">
-            No updates yet. Add a Markdown file under{" "}
-            <code className="rounded bg-ink-100 px-1.5 py-0.5 text-xs dark:bg-ink-800">
-              content/updates/
-            </code>
-            .
-          </p>
+          <EmptyState
+            title="No updates yet"
+            note="Add a Markdown file to get started. It will be validated and published automatically."
+            code="content/updates/"
+          />
         ) : (
-          <div className="grid gap-4 sm:grid-cols-2">
-            {updates.map((u) => (
-              <UpdateCard key={u.slug} update={u} />
-            ))}
-          </div>
+          <FilterableGrid
+            title="Updates"
+            items={updates.map((u) => ({ __type: "update", ...u }))}
+            statusOptions={statuses}
+            emptyState={
+              <p className="rounded-2xl border border-dashed border-ink-300 bg-white/60 p-8 text-center text-sm text-ink-500 dark:border-ink-700 dark:bg-ink-900/40 dark:text-ink-400">
+                No updates match the selected filters.
+              </p>
+            }
+          />
         )}
       </section>
     </div>

@@ -21,8 +21,14 @@
 
 import { readFileSync, readdirSync, statSync, existsSync } from "node:fs";
 import { join, resolve, relative, basename, dirname } from "node:path";
+import { fileURLToPath } from "node:url";
 
-const ROOT = resolve(import.meta.dirname, "..");
+const ROOT = resolve(
+  typeof import.meta.dirname === "string"
+    ? import.meta.dirname
+    : dirname(fileURLToPath(import.meta.url)),
+  "..",
+);
 const CONTENT_DIR = join(ROOT, "content");
 const SCHEMA = JSON.parse(readFileSync(join(ROOT, "schema.json"), "utf8"));
 

@@ -1,14 +1,33 @@
-import type { Metadata } from "next";
-import { Poppins } from "next/font/google";
+import type { Metadata, Viewport } from "next";
+import { Poppins, Sora } from "next/font/google";
 import "./globals.css";
 import { Nav } from "@/components/Nav";
 import { Footer } from "@/components/Footer";
+import { NavigationProgressProvider } from "@/components/NavigationProgress";
+import { ScrollToTop } from "@/components/ScrollToTop";
+import { CommandPalette } from "@/components/CommandPalette";
+import { buildSearchIndex } from "@/lib/search";
+
+export const viewport: Viewport = {
+  themeColor: [
+    { media: "(prefers-color-scheme: light)", color: "#f8fafc" },
+    { media: "(prefers-color-scheme: dark)", color: "#020617" },
+  ],
+  colorScheme: "light dark",
+};
 
 const poppins = Poppins({
   subsets: ["latin"],
   weight: ["400", "500", "600", "700"],
   display: "swap",
   variable: "--font-sans",
+});
+
+const sora = Sora({
+  subsets: ["latin"],
+  weight: ["500", "600", "700"],
+  display: "swap",
+  variable: "--font-display",
 });
 
 export const metadata: Metadata = {
@@ -19,7 +38,8 @@ export const metadata: Metadata = {
     default: "Karkhana",
     template: "%s · Karkhana",
   },
-  description: "Up-to-date content and standard operating procedures from the Karkhana team.",
+  description:
+    "Up-to-date content and standard operating procedures from the Karkhana team.",
   openGraph: {
     title: "Karkhana",
     description: "Content and SOPs from the Karkhana team.",
@@ -32,6 +52,8 @@ export default function RootLayout({
 }: {
   children: React.ReactNode;
 }) {
+  const index = buildSearchIndex();
+
   return (
     <html lang="en" suppressHydrationWarning>
       <head>
@@ -41,14 +63,20 @@ export default function RootLayout({
           }}
         />
       </head>
-      <body className={`${poppins.variable} font-sans`}>
-        <div className="flex min-h-screen flex-col bg-ink-50 dark:bg-ink-950">
-          <Nav />
-          <main className="mx-auto w-full max-w-5xl flex-1 px-4 py-10 sm:px-6 sm:py-14">
-            {children}
-          </main>
-          <Footer />
-        </div>
+      <body
+        className={`${poppins.variable} ${sora.variable} font-sans`}
+      >
+        <NavigationProgressProvider>
+          <div className="flex min-h-screen flex-col bg-ink-50 dark:bg-ink-950">
+            <Nav />
+            <main className="mx-auto w-full max-w-6xl flex-1 px-4 py-10 sm:px-6 sm:py-14">
+              {children}
+            </main>
+            <Footer />
+          </div>
+          <CommandPalette items={index} />
+          <ScrollToTop />
+        </NavigationProgressProvider>
       </body>
     </html>
   );

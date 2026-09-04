@@ -6,8 +6,6 @@ category: update
 status: in-progress
 ---
 
-# GitHub Content System
-
 ## Description
 
 Karkhana is a GitHub-based content management system that lets team members
@@ -16,7 +14,7 @@ shown on the Karkhana website, with GitHub as the source of truth.
 
 ## Progress
 
-- Content workflow defined in REQUIREMENTS.md.
+- Content workflow defined for the content system.
 - Markdown structure and date format agreed.
 - Validation pipeline built (frontmatter, category, status, date, slug, sections).
 - Next.js website scaffolding added.
