@@ -42,7 +42,7 @@ export default async function SopPage({
           </svg>
           Standard Operating Procedure
         </div>
-        <h1 className="font-serif text-3xl font-semibold leading-tight tracking-tight text-ink-900 sm:text-4xl dark:text-white">
+        <h1 className="font-sans text-3xl font-semibold leading-tight tracking-tight text-ink-900 sm:text-4xl dark:text-white">
           {sop.title}
         </h1>
         {sop.summary && (
@@ -66,7 +66,7 @@ export default async function SopPage({
       </header>
 
       <div className="rounded-2xl border border-ink-200 bg-white p-6 shadow-sm dark:border-ink-800 dark:bg-ink-900">
-        <div className="prose prose-ink max-w-none prose-headings:font-serif prose-headings:tracking-tight prose-h2:mt-8 prose-p:leading-relaxed dark:prose-invert [&_input[type=checkbox]]:h-4 [&_input[type=checkbox]]:w-4 [&_input[type=checkbox]]:rounded [&_input[type=checkbox]]:border-ink-300 [&_input[type=checkbox]]:accent-brand-600 [&_ul]:mt-4 [&_li]:py-0.5">
+        <div className="prose prose-ink max-w-none prose-headings:font-sans prose-headings:tracking-tight prose-h2:mt-8 prose-p:leading-relaxed dark:prose-invert [&_input[type=checkbox]]:h-4 [&_input[type=checkbox]]:w-4 [&_input[type=checkbox]]:rounded [&_input[type=checkbox]]:border-ink-300 [&_input[type=checkbox]]:accent-brand-600 [&_ul]:mt-4 [&_li]:py-0.5">
           <ReactMarkdown remarkPlugins={[remarkGfm]}>{sop.body}</ReactMarkdown>
         </div>
       </div>

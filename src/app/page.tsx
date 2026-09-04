@@ -29,7 +29,7 @@ export default function HomePage() {
             <span className="h-1.5 w-1.5 rounded-full bg-brand-500" />
             Karkhana Content System
           </p>
-          <h1 className="max-w-2xl font-serif text-3xl font-semibold tracking-tight text-ink-900 sm:text-4xl dark:text-white">
+          <h1 className="max-w-2xl font-sans text-3xl font-semibold tracking-tight text-ink-900 sm:text-4xl dark:text-white">
             Where the team&apos;s work becomes one living surface.
           </h1>
           <p className="mt-3 max-w-xl text-base leading-relaxed text-ink-600 dark:text-ink-300">
@@ -45,7 +45,7 @@ export default function HomePage() {
       <section>
         <div className="mb-5 flex items-end justify-between">
           <div>
-            <h2 className="font-serif text-2xl font-semibold tracking-tight text-ink-900 dark:text-white">
+            <h2 className="font-sans text-2xl font-semibold tracking-tight text-ink-900 dark:text-white">
               Updates
             </h2>
             <p className="mt-1 text-sm text-ink-500 dark:text-ink-400">

@@ -7,10 +7,10 @@ export const metadata = {
 export default function NotFound() {
   return (
     <div className="flex flex-col items-center justify-center py-24 text-center">
-      <p className="font-serif text-7xl font-semibold tracking-tight text-brand-600 dark:text-brand-400">
+      <p className="font-sans text-7xl font-semibold tracking-tight text-brand-600 dark:text-brand-400">
         404
       </p>
-      <h1 className="mt-4 font-serif text-2xl font-semibold text-ink-900 dark:text-white">
+      <h1 className="mt-4 font-sans text-2xl font-semibold text-ink-900 dark:text-white">
         This page wandered off.
       </h1>
       <p className="mt-2 max-w-md text-ink-500 dark:text-ink-400">

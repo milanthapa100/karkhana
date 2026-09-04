@@ -36,7 +36,7 @@ export default async function UpdatePage({
       </Link>
 
       <header className="mb-8">
-        <h1 className="font-serif text-3xl font-semibold leading-tight tracking-tight text-ink-900 sm:text-4xl dark:text-white">
+        <h1 className="font-sans text-3xl font-semibold leading-tight tracking-tight text-ink-900 sm:text-4xl dark:text-white">
           {update.title}
         </h1>
         <div className="mt-4 flex flex-wrap items-center gap-x-4 gap-y-2 text-sm text-ink-500 dark:text-ink-400">
@@ -47,7 +47,7 @@ export default async function UpdatePage({
         </div>
       </header>
 
-      <div className="prose prose-ink max-w-none prose-headings:font-serif prose-headings:tracking-tight prose-h2:mt-10 prose-p:leading-relaxed dark:prose-invert">
+      <div className="prose prose-ink max-w-none prose-headings:font-sans prose-headings:tracking-tight prose-h2:mt-10 prose-p:leading-relaxed dark:prose-invert">
         <ReactMarkdown remarkPlugins={[remarkGfm]}>{update.body}</ReactMarkdown>
       </div>
     </article>

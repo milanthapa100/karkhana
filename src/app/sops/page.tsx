@@ -16,7 +16,7 @@ export default function SopsPage() {
         <p className="mb-3 inline-flex items-center gap-2 rounded-full border border-ink-200 bg-white px-3 py-1 text-xs font-medium text-ink-500 dark:border-ink-800 dark:bg-ink-900 dark:text-ink-400">
           Standard Operating Procedures
         </p>
-        <h1 className="font-serif text-3xl font-semibold tracking-tight text-ink-900 sm:text-4xl dark:text-white">
+        <h1 className="font-sans text-3xl font-semibold tracking-tight text-ink-900 sm:text-4xl dark:text-white">
           How things get done.
         </h1>
         <p className="mt-3 text-base leading-relaxed text-ink-600 dark:text-ink-300">
