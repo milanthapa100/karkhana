@@ -2,7 +2,7 @@ import type { MetadataRoute } from "next";
 import { listUpdates } from "@/lib/content";
 import { listSops } from "@/lib/sop";
 
-const BASE = (process.env.NEXT_PUBLIC_SITE_URL ?? "https://karkhana.vercel.app").replace(/\/+$/, "");
+const BASE = (process.env.NEXT_PUBLIC_SITE_URL ?? "http://localhost:3000").replace(/\/+$/, "");
 
 export default function sitemap(): MetadataRoute.Sitemap {
   const now = new Date();
