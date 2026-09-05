@@ -3,7 +3,7 @@ title: Flow Ideation and Storification
 author: Suprash Thapa
 summary: How to sequence activities into a lesson flow and wrap it in a story to hook and guide students.
 owner: Suprash Thapa
-date: 2026-09-14
+date: 2026-09-1
 category: sop
 status: active
 ---

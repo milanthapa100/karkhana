@@ -3,7 +3,7 @@ title: DPK Culture and Reading
 author: Suprash Thapa
 summary: Reading and practice document explaining the thinking culture that DPK members should understand and apply while creating, improving, and reviewing lessons.
 owner: Suprash Thapa
-date: 2026-09-14
+date: 2026-09-1
 category: sop
 status: active
 ---

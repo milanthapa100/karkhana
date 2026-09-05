@@ -1,8 +1,8 @@
 ---
 title: Chain of Command
-author: Suprash Thapa
+author: Milan Thapa
 summary: How reporting and decision-making work within the DPK unit, and who to escalate to.
-owner: Suprash Thapa
+owner: Milan Thapa
 date: 2026-09-05
 category: sop
 status: active

@@ -3,7 +3,7 @@ title: Creating a CAT
 author: Suprash Thapa
 summary: How to design a Curiosity Activity and Thinking (CAT) that sparks student curiosity and drives thinking.
 owner: Suprash Thapa
-date: 2026-09-14
+date: 2026-09-1
 category: sop
 status: active
 ---
