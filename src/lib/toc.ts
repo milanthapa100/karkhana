@@ -1,5 +1,3 @@
-export type TocItem = { id: string; text: string; level: number };
-
 export function slugify(text: string): string {
   return text
     .toLowerCase()
@@ -10,7 +8,8 @@ export function slugify(text: string): string {
 
 /**
  * Plain text for a markdown heading: strips inline formatting (code spans,
- * links, emphasis) so the derived id matches what {@link extractToc} produces.
+ * links, emphasis) so the derived id matches what the heading resolver
+ * produces.
  */
 export function headingPlainText(raw: string): string {
   return raw
@@ -27,8 +26,8 @@ export type HeadingIdResolver = (raw: string) => string;
 /**
  * Builds a resolver that returns unique, deterministic heading ids for a
  * document. Duplicate heading text is disambiguated with a `-2`, `-3`, ...
- * suffix. This resolver is shared by both the renderer (Prose) and the TOC
- * extractor so generated `id`s always match the navigation links.
+ * suffix. This resolver is shared by the renderer (Prose) so generated `id`s
+ * always match the document headings.
  */
 export function createHeadingIdResolver(): HeadingIdResolver {
   const seen = new Map<string, number>();
@@ -38,22 +37,4 @@ export function createHeadingIdResolver(): HeadingIdResolver {
     seen.set(base, count + 1);
     return count === 0 ? base : `${base}-${count}`;
   };
-}
-
-export function extractToc(markdown: string): TocItem[] {
-  const items: TocItem[] = [];
-  const re = /^(#{2,4})\s+(.+)$/gm;
-  const resolveId = createHeadingIdResolver();
-  let m: RegExpExecArray | null;
-  while ((m = re.exec(markdown)) !== null) {
-    const level = m[1].length;
-    const raw = m[2].trim();
-    const text = headingPlainText(raw);
-    items.push({
-      id: resolveId(text),
-      text,
-      level,
-    });
-  }
-  return items;
 }

@@ -1,5 +1,3 @@
-"use client";
-
 export function DocsLayout({
   children,
   sidebar,
@@ -15,7 +13,7 @@ export function DocsLayout({
           : ""
       }
     >
-      <main className="min-w-0">{children}</main>
+      <div className="min-w-0">{children}</div>
 
       {sidebar && (
         <aside className="hidden xl:sticky xl:top-20 xl:block xl:self-start">

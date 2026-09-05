@@ -4,7 +4,7 @@ import { ThemeToggle } from "./ThemeToggle";
 
 export function Nav({ onMenuToggle }: { onMenuToggle?: () => void }) {
   const openPalette = () => {
-    window.dispatchEvent(new KeyboardEvent("keydown", { key: "k", ctrlKey: true }));
+    window.dispatchEvent(new CustomEvent("dpk:open-palette"));
   };
 
   return (

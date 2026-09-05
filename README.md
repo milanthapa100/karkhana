@@ -2,18 +2,19 @@
 
 A GitHub-based content management system. Team members create and update
 structured Markdown (`.md`) files. Changes are reviewed through Pull Requests
-and, once merged, are automatically shown on the Karkhana website.
+and, once merged, are served from the department's internal server.
 
 GitHub is the source of truth for all content.
 
 ## How it works
 
 ```
-Write Markdown → Branch → Pull Request → Validation → Review → Merge → Website updates
+Write Markdown → Branch → Pull Request → Validation → Review → Merge → Build on server PC → Website updates
 ```
 
 - Content lives in [`content/`](content/).
-- The website (Next.js) reads the merged Markdown from GitHub and renders it.
+- The website (Next.js) is built from the merged Markdown and served from an
+  office PC on the department network.
 - Validation runs automatically on every Pull Request.
 
 ## Content types
@@ -38,7 +39,7 @@ karkhana/
 ├── public/                  # static assets (logo, etc.)
 ├── src/                     # Next.js website source
 ├── scripts/                 # local validation helpers
-├── .github/workflows/       # CI: validate + deploy
+├── .github/workflows/       # CI: content validation
 └── schema.json              # content validation schema
 ```
 

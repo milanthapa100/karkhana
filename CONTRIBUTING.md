@@ -5,8 +5,8 @@ changes stay consistent and traceable.
 
 ## 1. Before you start
 
-- Make sure you can clone the repository.
-- Read the [Markdown requirements](README.md) section below.
+- Make sure you can clone the repository and have Node.js 20+ installed.
+- Read the [Quick start](README.md) and Content types sections in the README.
 - Understand what you are updating (assigned task, update, etc.).
 
 ## 2. Create a branch
@@ -77,4 +77,5 @@ Validation runs automatically on the PR. Fix any failing checks and re-push.
 ## 7. Merge
 
 A reviewer must approve the PR. Once approved, the maintainer merges it into
-`main`. The website then updates automatically.
+`main`. The site administrator then rebuilds and restarts the local server on
+the office PC to publish the changes.

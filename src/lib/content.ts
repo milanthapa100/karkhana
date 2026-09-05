@@ -18,7 +18,8 @@ function toIsoDate(value: unknown): string {
   if (value instanceof Date && !Number.isNaN(value.getTime())) {
     return value.toISOString().slice(0, 10);
   }
-  return String(value ?? "");
+  const str = String(value ?? "").trim();
+  return str ? str.slice(0, 10) : "";
 }
 
 export function listUpdates(): Update[] {
@@ -38,7 +39,7 @@ export function listUpdates(): Update[] {
         body: content,
       };
     })
-    .sort((a, b) => (a.date < b.date ? 1 : -1));
+    .sort((a, b) => (a.date < b.date ? 1 : a.date > b.date ? -1 : 0));
 }
 
 export function getUpdate(slug: string): Update | undefined {
