@@ -28,7 +28,7 @@ export default function HomePage() {
           </h1>
           <p className="mt-4 max-w-xl text-base leading-relaxed text-ink-600 dark:text-ink-300">
             Content-driven updates and standard operating procedures, written in
-            Markdown, reviewed on GitHub, published automatically.
+            Markdown and reviewed on GitHub.
           </p>
 
           <div className="mt-8 grid max-w-lg grid-cols-1 gap-4 min-[360px]:grid-cols-3">

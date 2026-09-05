@@ -39,16 +39,23 @@ export function CommandPalette({ items }: { items: SearchItem[] }) {
         (it) =>
           it.title.toLowerCase().includes(q) ||
           it.snippet.toLowerCase().includes(q) ||
+          it.searchText.toLowerCase().includes(q) ||
           it.type.includes(q),
       )
       .slice(0, 12);
   }, [items, q]);
 
   useEffect(() => {
+    const onOpen = () => setOpen(true);
+    window.addEventListener("dpk:open-palette", onOpen);
+    return () => window.removeEventListener("dpk:open-palette", onOpen);
+  }, []);
+
+  useEffect(() => {
     const onKey = (e: KeyboardEvent) => {
       if ((e.metaKey || e.ctrlKey) && e.key.toLowerCase() === "k") {
         e.preventDefault();
-        setOpen((o) => !o);
+        setOpen(true);
       } else if (
         e.key === "/" &&
         !open &&

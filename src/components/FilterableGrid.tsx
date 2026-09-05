@@ -34,8 +34,8 @@ export function FilterableGrid({
       if (status !== "all" && (it.status ?? "") !== status) return false;
       return true;
     });
-    if (sort === "newest") out = [...out].sort((a, b) => (a.date < b.date ? 1 : -1));
-    else if (sort === "oldest") out = [...out].sort((a, b) => (a.date > b.date ? 1 : -1));
+    if (sort === "newest") out = [...out].sort((a, b) => (a.date < b.date ? 1 : a.date > b.date ? -1 : 0));
+    else if (sort === "oldest") out = [...out].sort((a, b) => (a.date > b.date ? 1 : a.date < b.date ? -1 : 0));
     else out = [...out].sort((a, b) => a.title.localeCompare(b.title));
     return out;
   }, [items, status, sort]);
@@ -57,7 +57,7 @@ export function FilterableGrid({
 
   const chips = [
     { value: "all", label: "All" },
-    ...statusList.map((s) => ({ value: s, label: s.replace("-", " ") })),
+    ...statusList.map((s) => ({ value: s, label: s.replace(/-/g, " ") })),
   ];
 
   const chipCls = (isActive: boolean) =>
@@ -141,9 +141,9 @@ export function FilterableGrid({
           >
             {shown.map((it) =>
               it.__type === "update" ? (
-                <UpdateCard key={it.slug} update={it} />
+                <UpdateCard key={`update:${it.slug}`} update={it} />
               ) : (
-                <SopCard key={it.slug} sop={it} />
+                <SopCard key={`sop:${it.slug}`} sop={it} />
               ),
             )}
           </div>

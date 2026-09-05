@@ -16,7 +16,11 @@ export function generateStaticParams() {
 export async function generateMetadata({ params }: { params: Promise<{ slug: string }> }) {
   const { slug } = await params;
   const update = getUpdate(slug);
-  return { title: update?.title ?? "Updates" };
+  return {
+    title: update?.title ?? "Updates",
+    description:
+      update?.body.trim().split(/\n+/)[0]?.trim().replace(/^#+\s*/, "") || update?.title,
+  };
 }
 
 export default async function UpdatePage({

@@ -4,7 +4,7 @@ import { FilterableGrid } from "@/components/FilterableGrid";
 
 export const metadata = {
   title: "Updates",
-  description: "Recent content published by the DPK team.",
+  description: "Recent updates from the DPK team.",
 };
 
 const UPDATE_STATUSES = ["draft", "in-progress", "done", "published"];
@@ -22,15 +22,15 @@ export default function UpdatesPage() {
           Updates
         </h1>
         <p className="mt-3 text-base leading-relaxed text-ink-600 dark:text-ink-300">
-          Content-driven updates from the DPK team, written in Markdown,
-          reviewed on GitHub, published automatically.
+          Progress reports and announcements from the DPK team, written in
+          Markdown and reviewed on GitHub.
         </p>
       </div>
 
       {updates.length === 0 ? (
         <EmptyState
           title="No updates yet"
-          note="Add a Markdown file to get started. It will be validated and published automatically."
+          note="Add a Markdown file to get started. It will be validated and served on the office server."
           code="content/updates/"
         />
       ) : (

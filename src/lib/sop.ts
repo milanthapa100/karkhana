@@ -37,14 +37,14 @@ export function listSops(): Sop[] {
         title: String(data.title ?? file),
         author: String(data.author ?? ""),
         date: toIsoDate(data.date),
-        category: "sop",
+        category: String(data.category || "sop"),
         status: String(data.status ?? ""),
         summary: String(data.summary ?? ""),
         owner: String(data.owner ?? ""),
         body: content,
       };
     })
-    .sort((a, b) => (a.date < b.date ? 1 : -1));
+    .sort((a, b) => (a.date < b.date ? 1 : a.date > b.date ? -1 : 0));
 }
 
 export function getSop(slug: string): Sop | undefined {
