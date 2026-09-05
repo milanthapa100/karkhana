@@ -4,7 +4,7 @@ import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { useEffect, useRef } from "react";
 import { Logo } from "./Logo";
-import { NAV_ITEMS, isNavActive } from "./nav-config";
+import { NAV_GROUPS, isNavActive } from "./nav-config";
 
 export function MobileSidebar({
   open,
@@ -34,7 +34,7 @@ export function MobileSidebar({
   if (!open) return null;
 
   return (
-    <div className="fixed inset-0 z-[60] lg:hidden" role="dialog" aria-modal="true">
+    <div className="no-print fixed inset-0 z-[60] lg:hidden" role="dialog" aria-modal="true">
       <div className="absolute inset-0 bg-ink-950/40 backdrop-blur-sm"
         onClick={onClose}
       />
@@ -58,30 +58,77 @@ export function MobileSidebar({
           </button>
         </div>
 
-        <nav className="flex-1 overflow-y-auto px-3 py-4" aria-label="Sidebar">
-          <ul className="space-y-1">
-            {NAV_ITEMS.map((item) => {
-              const active = isNavActive(pathname, item.href);
-              return (
-                <li key={item.href}>
-                  <Link
-                    href={item.href}
-                    onClick={onClose}
-                    aria-current={active ? "page" : undefined}
-                    className={`flex items-center gap-2.5 rounded-lg px-2.5 py-2 text-sm font-medium transition ${
-                      active
-                        ? "bg-ink-100 text-ink-900 dark:bg-ink-800 dark:text-white"
-                        : "text-ink-600 hover:bg-ink-50 hover:text-ink-900 dark:text-ink-400 dark:hover:bg-ink-900 dark:hover:text-white"
-                    }`}
-                  >
-                    {item.icon}
-                    {item.label}
-                  </Link>
-                </li>
-              );
-            })}
-          </ul>
-        </nav>
+        <div className="flex-1 overflow-y-auto">
+          <div className="px-4 pb-2 pt-3">
+            <button
+              type="button"
+              onClick={() => {
+                onClose();
+                if (typeof window !== "undefined") {
+                  window.dispatchEvent(new CustomEvent("dpk:open-palette"));
+                }
+              }}
+              className="group flex w-full items-center gap-2.5 rounded-xl border border-ink-200/80 bg-ink-50/60 px-3 py-2 text-xs text-ink-500 shadow-2xs transition-colors hover:border-brand-300 hover:bg-white hover:text-ink-900 dark:border-ink-800 dark:bg-ink-900/60 dark:text-ink-400 dark:hover:border-brand-700 dark:hover:bg-ink-900 dark:hover:text-white"
+              aria-label="Quick search"
+            >
+              <svg
+                className="h-4 w-4 shrink-0 text-ink-400 transition-colors group-hover:text-brand-600 dark:text-ink-500 dark:group-hover:text-brand-400"
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                strokeWidth="2"
+                strokeLinecap="round"
+                aria-hidden="true"
+              >
+                <circle cx="11" cy="11" r="7" />
+                <path d="m21 21-4.35-4.35" />
+              </svg>
+              <span className="flex-1 text-left">Search documentation</span>
+            </button>
+          </div>
+
+          <nav className="px-3 py-2" aria-label="Sidebar">
+            {NAV_GROUPS.map((group, gi) => (
+              <div key={gi} className="mb-5 last:mb-0">
+                {group.label && (
+                  <p className="mb-1.5 px-3 text-[11px] font-semibold uppercase tracking-wider text-ink-400 dark:text-ink-500">
+                    {group.label}
+                  </p>
+                )}
+                <ul className="space-y-0.5">
+                  {group.items.map((item) => {
+                    const active = isNavActive(pathname, item.href);
+                    return (
+                      <li key={item.href}>
+                        <Link
+                          href={item.href}
+                          onClick={onClose}
+                          aria-current={active ? "page" : undefined}
+                          className={`flex items-center gap-2.5 rounded-lg px-3 py-2 text-sm transition-colors ${
+                            active
+                              ? "bg-brand-50 font-medium text-brand-600 dark:bg-brand-500/15 dark:text-brand-300"
+                              : "text-ink-600 hover:bg-ink-100/70 hover:text-ink-900 dark:text-ink-400 dark:hover:bg-ink-900/80 dark:hover:text-white"
+                          }`}
+                        >
+                          <span
+                            className={`transition-colors ${
+                              active
+                                ? "text-brand-600 dark:text-brand-400"
+                                : "text-ink-400 group-hover:text-ink-700 dark:text-ink-500 dark:group-hover:text-ink-300"
+                            }`}
+                          >
+                            {item.icon}
+                          </span>
+                          <span className="flex-1 truncate">{item.label}</span>
+                        </Link>
+                      </li>
+                    );
+                  })}
+                </ul>
+              </div>
+            ))}
+          </nav>
+        </div>
       </div>
     </div>
   );

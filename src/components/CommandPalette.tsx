@@ -4,6 +4,7 @@ import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { useEffect, useMemo, useRef, useState } from "react";
 import type { SearchItem } from "@/lib/types";
+import { bestFuzzyScore } from "@/lib/fuzzy";
 
 function Highlight({ text, query }: { text: string; query: string }) {
   const q = query.trim().toLowerCase();
@@ -25,6 +26,7 @@ export function CommandPalette({ items }: { items: SearchItem[] }) {
   const [open, setOpen] = useState(false);
   const [query, setQuery] = useState("");
   const [active, setActive] = useState(0);
+  const [filterType, setFilterType] = useState<"all" | "update" | "sop">("all");
   const inputRef = useRef<HTMLInputElement>(null);
   const listRef = useRef<HTMLDivElement>(null);
   const dialogRef = useRef<HTMLDivElement>(null);
@@ -33,17 +35,29 @@ export function CommandPalette({ items }: { items: SearchItem[] }) {
   const q = query.trim().toLowerCase();
 
   const results = useMemo(() => {
-    if (!q) return items.slice(0, 8);
-    return items
-      .filter(
-        (it) =>
-          it.title.toLowerCase().includes(q) ||
-          it.snippet.toLowerCase().includes(q) ||
-          it.searchText.toLowerCase().includes(q) ||
-          it.type.includes(q),
-      )
-      .slice(0, 12);
-  }, [items, q]);
+    let filtered = items;
+    if (filterType !== "all") {
+      filtered = filtered.filter((it) => it.type === filterType);
+    }
+    if (!q) return filtered.slice(0, 8);
+
+    const scored = filtered
+      .map((it) => ({
+        item: it,
+        score: bestFuzzyScore(q, [
+          { text: it.title },
+          { text: it.type },
+          { text: it.snippet, weight: 3 },
+          { text: it.searchText, weight: 6 },
+        ])?.score ?? Number.MAX_SAFE_INTEGER,
+      }))
+      .filter((s) => s.score !== Number.MAX_SAFE_INTEGER)
+      .sort((a, b) => a.score - b.score)
+      .slice(0, 12)
+      .map((s) => s.item);
+
+    return scored;
+  }, [items, q, filterType]);
 
   useEffect(() => {
     const onOpen = () => setOpen(true);
@@ -73,44 +87,40 @@ export function CommandPalette({ items }: { items: SearchItem[] }) {
   }, [open]);
 
   useEffect(() => {
-    if (open) {
-      setQuery("");
-      setActive(0);
-      requestAnimationFrame(() => inputRef.current?.focus());
-      document.body.style.overflow = "hidden";
-      const dialog = dialogRef.current;
-      if (dialog) {
-        const focusables = () =>
-          Array.from(
-            dialog.querySelectorAll<HTMLElement>(
-              'a[href], button, input, [tabindex]:not([tabindex="-1"])',
-            ),
-          );
-        const onKey = (e: KeyboardEvent) => {
-          if (e.key !== "Tab") return;
-          const els = focusables();
-          if (els.length === 0) return;
-          const first = els[0];
-          const last = els[els.length - 1];
-          if (e.shiftKey && document.activeElement === first) {
-            e.preventDefault();
-            last.focus();
-          } else if (!e.shiftKey && document.activeElement === last) {
-            e.preventDefault();
-            first.focus();
-          }
-        };
-        dialog.addEventListener("keydown", onKey);
-        return () => {
-          document.body.style.overflow = "";
-          dialog.removeEventListener("keydown", onKey);
-        };
+    if (!open) return;
+    setQuery("");
+    setActive(0);
+    requestAnimationFrame(() => inputRef.current?.focus());
+    document.body.style.overflow = "hidden";
+
+    const dialog = dialogRef.current;
+    if (!dialog) return;
+
+    const focusables = () =>
+      Array.from(
+        dialog.querySelectorAll<HTMLElement>(
+          'a[href], button, input, [tabindex]:not([tabindex="-1"])',
+        ),
+      );
+    const onKey = (e: KeyboardEvent) => {
+      if (e.key !== "Tab") return;
+      const els = focusables();
+      if (els.length === 0) return;
+      const first = els[0];
+      const last = els[els.length - 1];
+      if (e.shiftKey && document.activeElement === first) {
+        e.preventDefault();
+        last.focus();
+      } else if (!e.shiftKey && document.activeElement === last) {
+        e.preventDefault();
+        first.focus();
       }
-    } else {
-      document.body.style.overflow = "";
-    }
+    };
+    dialog.addEventListener("keydown", onKey);
+
     return () => {
       document.body.style.overflow = "";
+      dialog.removeEventListener("keydown", onKey);
     };
   }, [open]);
 
@@ -131,10 +141,11 @@ export function CommandPalette({ items }: { items: SearchItem[] }) {
 
   const navigate = (dir: 1 | -1) => {
     if (results.length === 0) return;
-    setActive((a) => (a + dir + results.length) % results.length);
+    const nextIndex = (active + dir + results.length) % results.length;
+    setActive(nextIndex);
     listRef.current
       ?.querySelectorAll<HTMLElement>("[data-opt]")
-      ?.[(active + dir + results.length) % results.length]?.scrollIntoView({
+      ?.[nextIndex]?.scrollIntoView({
         block: "nearest",
       });
   };
@@ -155,7 +166,7 @@ export function CommandPalette({ items }: { items: SearchItem[] }) {
 
   return (
     <div
-      className="fixed inset-0 z-[70] flex items-start justify-center bg-ink-950/50 p-4 pt-[10vh] backdrop-blur-sm"
+      className="no-print fixed inset-0 z-[70] flex items-start justify-center bg-ink-950/50 p-4 pt-[10vh] backdrop-blur-sm"
       onClick={() => setOpen(false)}
       role="dialog"
       aria-modal="true"
@@ -194,6 +205,26 @@ export function CommandPalette({ items }: { items: SearchItem[] }) {
           </kbd>
         </div>
 
+        <div className="flex items-center gap-1.5 border-b border-ink-100/70 bg-ink-50/40 px-4 py-2 dark:border-ink-800/70 dark:bg-ink-900/40">
+          {(["all", "update", "sop"] as const).map((t) => (
+            <button
+              key={t}
+              type="button"
+              onClick={() => {
+                setFilterType(t);
+                setActive(0);
+              }}
+              className={`rounded-md px-2.5 py-1 text-xs font-medium capitalize transition ${
+                filterType === t
+                  ? "bg-brand-600 text-white shadow-2xs dark:bg-brand-500"
+                  : "text-ink-600 hover:bg-ink-100 dark:text-ink-400 dark:hover:bg-ink-800"
+              }`}
+            >
+              {t === "all" ? "All Content" : t === "update" ? "Updates" : "SOPs"}
+            </button>
+          ))}
+        </div>
+
         <div
           ref={listRef}
           role="listbox"
@@ -217,6 +248,7 @@ export function CommandPalette({ items }: { items: SearchItem[] }) {
                     key={it.href}
                     href={it.href}
                     onClick={() => setOpen(false)}
+                    onMouseEnter={() => setActive(results.indexOf(it))}
                     data-opt
                     role="option"
                     aria-selected={isActive}
@@ -269,30 +301,7 @@ export function CommandPalette({ items }: { items: SearchItem[] }) {
           ))}
         </div>
 
-        <div className="flex items-center justify-between border-t border-ink-100 bg-ink-50/60 px-4 py-2.5 dark:border-ink-800 dark:bg-ink-800/40">
-          <div className="flex items-center gap-3 text-[11px] text-ink-500 dark:text-ink-400">
-            <span className="flex items-center gap-1">
-              <kbd className="rounded border border-ink-200 bg-white px-1 text-[10px] dark:border-ink-700 dark:bg-ink-900">
-                ↑
-              </kbd>
-              <kbd className="rounded border border-ink-200 bg-white px-1 text-[10px] dark:border-ink-700 dark:bg-ink-900">
-                ↓
-              </kbd>
-              navigate
-            </span>
-            <span className="flex items-center gap-1">
-              <kbd className="rounded border border-ink-200 bg-white px-1 text-[10px] dark:border-ink-700 dark:bg-ink-900">
-                ↵
-              </kbd>
-              select
-            </span>
-            <span className="flex items-center gap-1">
-              <kbd className="rounded border border-ink-200 bg-white px-1 text-[10px] dark:border-ink-700 dark:bg-ink-900">
-                esc
-              </kbd>
-              close
-            </span>
-          </div>
+        <div className="flex items-center justify-end border-t border-ink-100 bg-ink-50/60 px-4 py-2.5 dark:border-ink-800 dark:bg-ink-800/40">
           <p className="text-[11px] text-ink-400 dark:text-ink-500">
             {results.length} {results.length === 1 ? "result" : "results"}
           </p>

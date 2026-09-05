@@ -15,7 +15,7 @@ export default function GlobalError({
 
   return (
     <html lang="en">
-      <body style={{ margin: 0, background: "#f8fafc", color: "#0f172a" }}>
+      <body style={{ margin: 0, background: "#fafafa", color: "#18181b" }}>
         <div
           style={{
             minHeight: "100vh",
@@ -34,10 +34,10 @@ export default function GlobalError({
               width: "100%",
               maxWidth: 440,
               borderRadius: 16,
-              border: "1px solid #e2e8f0",
+              border: "1px solid #e4e4e7",
               background: "#ffffff",
               padding: "32px",
-              boxShadow: "0 4px 20px rgba(2,6,23,0.06)",
+              boxShadow: "0 4px 20px rgba(9,9,11,0.06)",
             }}
           >
             <div
@@ -45,7 +45,7 @@ export default function GlobalError({
                 fontSize: 64,
                 fontWeight: 700,
                 letterSpacing: "-0.03em",
-                color: "#059669",
+                color: "#2563eb",
               }}
             >
               500
@@ -60,7 +60,7 @@ export default function GlobalError({
             >
               Something went wrong
             </h1>
-            <p style={{ marginTop: 8, fontSize: 14, color: "#64748b" }}>
+            <p style={{ marginTop: 8, fontSize: 14, color: "#71717a" }}>
               An unexpected error occurred while loading this page.
             </p>
             {error.digest && (
@@ -68,7 +68,7 @@ export default function GlobalError({
                 style={{
                   marginTop: 12,
                   fontSize: 12,
-                  color: "#94a3b8",
+                  color: "#a1a1aa",
                   fontFamily: "ui-monospace, monospace",
                 }}
               >
@@ -83,7 +83,7 @@ export default function GlobalError({
                 cursor: "pointer",
                 border: "none",
                 borderRadius: 8,
-                background: "#059669",
+                background: "#2563eb",
                 color: "#ffffff",
                 fontSize: 14,
                 fontWeight: 500,

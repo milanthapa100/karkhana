@@ -4,12 +4,12 @@ export type Crumb = { label: string; href?: string };
 
 export function Breadcrumbs({ crumbs }: { crumbs: Crumb[] }) {
   return (
-    <nav aria-label="Breadcrumb" className="mb-6">
+    <nav aria-label="Breadcrumb" className="no-print mb-6">
       <ol className="flex flex-wrap items-center gap-1.5 text-sm">
         {crumbs.map((c, i) => {
           const isLast = i === crumbs.length - 1;
           return (
-            <li key={c.label} className="flex items-center gap-1.5">
+            <li key={`${c.href ?? "crumb"}-${i}`} className="flex items-center gap-1.5">
               {i > 0 && (
                 <svg
                   className="h-3.5 w-3.5 text-ink-300 dark:text-ink-600"

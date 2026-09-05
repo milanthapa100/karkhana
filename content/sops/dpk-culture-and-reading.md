@@ -244,12 +244,12 @@ For DPK, design thinking helps us create lessons that are useful, usable, and me
 
 Use this simple flow:
 
-1. Empathize — Understand the learner, teacher, context, and constraints
-2. Define — Clarify the problem or learning need
-3. Ideate — Create possible lesson or activity ideas
-4. Prototype — Build a simple version
-5. Test — Try it, review it, and collect feedback
-6. Improve — Make changes based on evidence
+1. Empathize: Understand the learner, teacher, context, and constraints
+2. Define: Clarify the problem or learning need
+3. Ideate: Create possible lesson or activity ideas
+4. Prototype: Build a simple version
+5. Test: Try it, review it, and collect feedback
+6. Improve: Make changes based on evidence
 
 When using design thinking, ask:
 
