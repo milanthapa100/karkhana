@@ -1,8 +1,7 @@
 import type { Metadata, Viewport } from "next";
 import { Poppins, Sora } from "next/font/google";
 import "./globals.css";
-import { Nav } from "@/components/Nav";
-import { Footer } from "@/components/Footer";
+import { SidebarLayout } from "@/components/SidebarLayout";
 import { NavigationProgressProvider } from "@/components/NavigationProgress";
 import { ScrollToTop } from "@/components/ScrollToTop";
 import { CommandPalette } from "@/components/CommandPalette";
@@ -35,14 +34,14 @@ export const metadata: Metadata = {
     process.env.NEXT_PUBLIC_SITE_URL ?? "https://karkhana.vercel.app",
   ),
   title: {
-    default: "Karkhana",
-    template: "%s · Karkhana",
+    default: "DPK",
+    template: "%s · DPK",
   },
   description:
-    "Up-to-date content and standard operating procedures from the Karkhana team.",
+    "Up-to-date content and standard operating procedures from the DPK team.",
   openGraph: {
-    title: "Karkhana",
-    description: "Content and SOPs from the Karkhana team.",
+    title: "DPK",
+    description: "Content and SOPs from the DPK team.",
     type: "website",
   },
 };
@@ -68,11 +67,9 @@ export default function RootLayout({
       >
         <NavigationProgressProvider>
           <div className="flex min-h-screen flex-col bg-ink-50 dark:bg-ink-950">
-            <Nav />
-            <main className="mx-auto w-full max-w-6xl flex-1 px-4 py-10 sm:px-6 sm:py-14">
+            <SidebarLayout>
               {children}
-            </main>
-            <Footer />
+            </SidebarLayout>
           </div>
           <CommandPalette items={index} />
           <ScrollToTop />

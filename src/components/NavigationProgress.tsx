@@ -5,6 +5,7 @@ import {
   useCallback,
   useContext,
   useEffect,
+  useMemo,
   useRef,
   useState,
 } from "react";
@@ -76,6 +77,10 @@ export function NavigationProgressProvider({
 
   const start = useCallback(() => {
     stopAnimation();
+    if (hideTimer.current !== null) {
+      clearTimeout(hideTimer.current);
+      hideTimer.current = null;
+    }
     setVisible(true);
     setLive(10);
     isAnimatingRef.current = true;
@@ -122,8 +127,10 @@ export function NavigationProgressProvider({
     [stopAnimation],
   );
 
+  const signal = useMemo(() => ({ start, complete }), [start, complete]);
+
   return (
-    <SignalCtx.Provider value={{ start, complete }}>
+    <SignalCtx.Provider value={signal}>
       <div
         aria-hidden="true"
         className="pointer-events-none fixed left-0 top-0 z-[80] h-0.5 w-full bg-transparent"

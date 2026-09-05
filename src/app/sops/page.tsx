@@ -4,7 +4,7 @@ import { FilterableGrid } from "@/components/FilterableGrid";
 
 export const metadata = {
   title: "Standard Operating Procedures",
-  description: "Step-by-step procedures owned by the Karkhana team.",
+  description: "Step-by-step procedures owned by the DPK team.",
 };
 
 export default function SopsPage() {
@@ -26,8 +26,7 @@ export default function SopsPage() {
             {sops.length} total. Each includes a checklist you can work through.
           </p>
         </div>
-        <p className="inline-flex shrink-0 items-center gap-2 rounded-full bg-accent-100 px-3 py-1.5 text-xs font-medium text-accent-700 dark:bg-accent-500/15 dark:text-accent-300">
-          <svg className="h-4 w-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
+        <p className="inline-flex shrink-0 items-center gap-2 rounded-full bg-accent-100 px-3 py-1.5 text-xs font-medium text-accent-700 dark:bg-accent-500/15 dark:text-accent-300">          <svg className="h-4 w-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
             <path d="M9 12l2 2 4-4" />
             <circle cx="12" cy="12" r="9" />
           </svg>

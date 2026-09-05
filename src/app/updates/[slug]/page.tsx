@@ -7,13 +7,16 @@ import { StatusBadge } from "@/components/StatusBadge";
 import { Breadcrumbs } from "@/components/Breadcrumbs";
 import { DocsLayout } from "@/components/DocsLayout";
 import { Prose } from "@/components/Prose";
-
-export const metadata = {
-  title: "Updates",
-};
+import { ReadingProgress } from "@/components/ReadingProgress";
 
 export function generateStaticParams() {
   return listUpdates().map((u) => ({ slug: u.slug }));
+}
+
+export async function generateMetadata({ params }: { params: Promise<{ slug: string }> }) {
+  const { slug } = await params;
+  const update = getUpdate(slug);
+  return { title: update?.title ?? "Updates" };
 }
 
 export default async function UpdatePage({
@@ -25,43 +28,32 @@ export default async function UpdatePage({
   const update = getUpdate(slug);
   if (!update) notFound();
 
-  const all = listUpdates();
   const mins = readingMinutes(update.body);
   const dateText = formatDate(update.date);
 
-  const links = all.map((u) => ({
-    href: `/updates/${u.slug}`,
-    label: u.title,
-  }));
-
   return (
-    <div className="mx-auto max-w-7xl">
+    <div className="mx-auto max-w-4xl">
+      <ReadingProgress />
       <Breadcrumbs
         crumbs={[
-          { label: "Updates", href: "/" },
+          { label: "Updates", href: "/updates" },
           { label: update.title },
         ]}
       />
 
       <div className="mt-6">
-        <DocsLayout
-          section="Updates"
-          sectionHref="/"
-          links={links}
-        >
+        <DocsLayout>
           <article className="overflow-hidden rounded-3xl border border-ink-200/80 bg-white shadow-sm dark:border-ink-800 dark:bg-ink-900">
-            {/* Header hero */}
             <header className="relative px-6 pb-8 pt-10 sm:px-10 sm:pt-14">
               <div
                 aria-hidden="true"
-                className="pointer-events-none absolute inset-x-0 top-0 h-44 bg-brand-50 dark:bg-brand-500/10 sm:h-56"
+                className="pointer-events-none absolute inset-x-0 top-0 h-44 bg-white dark:bg-ink-900 sm:h-56"
               />
               <div className="relative">
                 <h1 className="font-display text-3xl font-semibold leading-tight tracking-tight text-ink-900 sm:text-4xl lg:text-[2.75rem] dark:text-white">
                   {update.title}
                 </h1>
 
-                {/* Byline */}
                 <div className="mt-6 flex flex-wrap items-center gap-x-4 gap-y-3">
                   <div
                     className={`flex h-11 w-11 items-center justify-center rounded-full font-display text-sm font-semibold text-white shadow-sm ${avatarColor(
@@ -73,7 +65,7 @@ export default async function UpdatePage({
                   </div>
                   <div className="flex flex-col">
                     <span className="text-sm font-medium text-ink-900 dark:text-white">
-                      {update.author || "Karkhana Team"}
+                      {update.author || "DPK Team"}
                     </span>
                     <span className="text-xs text-ink-500 dark:text-ink-400">
                       {dateText}
@@ -87,7 +79,6 @@ export default async function UpdatePage({
               </div>
             </header>
 
-            {/* Content */}
             <div className="px-6 pb-10 sm:px-10">
               <div className="border-t border-ink-200 pt-8 dark:border-ink-800">
                 <Prose markdown={update.body} />

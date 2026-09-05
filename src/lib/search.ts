@@ -1,13 +1,13 @@
 import { listUpdates } from "./content";
 import { listSops } from "./sop";
-import type { SearchItem } from "@/components/Search";
+import type { SearchItem } from "@/lib/types";
 
 export function buildSearchIndex(): SearchItem[] {
   const updates: SearchItem[] = listUpdates().map((u) => ({
     title: u.title,
     href: `/updates/${u.slug}`,
     type: "update",
-    snippet: `${u.author} · ${u.status}`,
+    snippet: [u.author, u.status].filter(Boolean).join(" · "),
     status: u.status,
     date: u.date,
   }));

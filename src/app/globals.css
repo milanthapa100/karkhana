@@ -24,13 +24,17 @@
   --color-brand-900: #064e3b;
 
   /* Teal (secondary accent) */
+  --color-accent-50: #f0fdfa;
+  --color-accent-100: #ccfbf1;
   --color-accent-200: #99f6e4;
   --color-accent-300: #5eead4;
   --color-accent-400: #2dd4bf;
   --color-accent-500: #14b8a6;
   --color-accent-600: #0d9488;
+  --color-accent-700: #0f766e;
 
   /* Sky (tertiary accent) */
+  --color-sky-deep-300: #7dd3fc;
   --color-sky-deep-400: #38bdf8;
   --color-sky-deep-500: #0ea5e9;
   --color-sky-deep-600: #0284c7;

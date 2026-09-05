@@ -3,7 +3,7 @@
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { useEffect, useMemo, useRef, useState } from "react";
-import type { SearchItem } from "./Search";
+import type { SearchItem } from "@/lib/types";
 
 function Highlight({ text, query }: { text: string; query: string }) {
   const q = query.trim().toLowerCase();

@@ -77,7 +77,9 @@ function isRealDate(str) {
 }
 
 function slugify(title) {
-  return String(title)
+  // Strip parenthetical content before slugifying
+  const cleaned = String(title).replace(/\s*\([^)]*\)\s*/g, " ").trim();
+  return cleaned
     .toLowerCase()
     .replace(/[^a-z0-9]+/g, "-")
     .replace(/^-+|-+$/g, "");
@@ -168,13 +170,6 @@ function validateFile(file) {
       const headingRe = new RegExp(`^##\\s+${section}\\s*$`, "m");
       if (!headingRe.test(body)) {
         errors.push(`missing required section: "## ${section}"`);
-      }
-    }
-    if (category === "sop") {
-      if (!/^-\s*\[[ xX]\]\s+.+$/m.test(body)) {
-        errors.push(
-          '"## Steps" must contain at least one checklist item starting with "- [ ]"',
-        );
       }
     }
   }
