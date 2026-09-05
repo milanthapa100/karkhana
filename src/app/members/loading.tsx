@@ -1,17 +1,8 @@
 "use client";
 
-import { useEffect } from "react";
 import { Skeleton } from "@/components/Skeleton";
-import { useNavigationSignal } from "@/components/NavigationProgress";
 
 export default function Loading() {
-  const signal = useNavigationSignal();
-
-  useEffect(() => {
-    signal.start();
-    return () => signal.complete();
-  }, [signal]);
-
   return (
     <div className="flex flex-col gap-8" aria-busy="true" aria-label="Loading members">
       <div className="max-w-2xl">

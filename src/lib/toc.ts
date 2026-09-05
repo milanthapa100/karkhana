@@ -38,3 +38,39 @@ export function createHeadingIdResolver(): HeadingIdResolver {
     return count === 0 ? base : `${base}-${count}`;
   };
 }
+
+export type TocItem = {
+  id: string;
+  text: string;
+  level: number;
+};
+
+/**
+ * Parses markdown body text and extracts h2 and h3 headings with deterministic
+ * IDs matching the Prose renderer.
+ */
+export function extractHeadings(markdown: string): TocItem[] {
+  const resolveId = createHeadingIdResolver();
+  const headings: TocItem[] = [];
+  const lines = markdown.split(/\r?\n/);
+  let inCodeBlock = false;
+
+  for (const line of lines) {
+    if (line.trim().startsWith("```")) {
+      inCodeBlock = !inCodeBlock;
+      continue;
+    }
+    if (inCodeBlock) continue;
+
+    const match = line.match(/^(#{2,3})\s+(.+)$/);
+    if (match) {
+      const level = match[1].length;
+      const rawText = match[2].trim();
+      const plain = headingPlainText(rawText);
+      const id = resolveId(plain || "section");
+      headings.push({ id, text: plain, level });
+    }
+  }
+
+  return headings;
+}

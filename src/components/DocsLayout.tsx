@@ -16,7 +16,7 @@ export function DocsLayout({
       <div className="min-w-0">{children}</div>
 
       {sidebar && (
-        <aside className="hidden xl:sticky xl:top-20 xl:block xl:self-start">
+        <aside className="no-print hidden xl:sticky xl:top-8 xl:block xl:self-start">
           {sidebar}
         </aside>
       )}

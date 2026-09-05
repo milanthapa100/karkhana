@@ -21,8 +21,8 @@ if not exist ".next\standalone\server.js" (
 
 REM The standalone server does not include public/ or .next/static by
 REM default, so copy them in so the site serves its CSS, JS, and logos.
-if not exist ".next\standalone\public" xcopy /i /e /y public ".next\standalone\public" >nul
-if not exist ".next\standalone\.next\static" xcopy /i /e /y ".next\static" ".next\standalone\.next\static" >nul
+xcopy /i /e /y /q public ".next\standalone\public" >nul
+xcopy /i /e /y /q ".next\static" ".next\standalone\.next\static" >nul
 
 REM Bind to all interfaces (0.0.0.0) so other PCs on the network can reach it.
 set HOSTNAME=0.0.0.0

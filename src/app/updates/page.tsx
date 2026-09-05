@@ -7,13 +7,8 @@ export const metadata = {
   description: "Recent updates from the DPK team.",
 };
 
-const UPDATE_STATUSES = ["draft", "in-progress", "done", "published"];
-
 export default function UpdatesPage() {
   const updates = listUpdates();
-  const statuses = Array.from(
-    new Set(updates.map((u) => u.status ?? "").filter(Boolean)),
-  ).filter((s) => UPDATE_STATUSES.includes(s));
 
   return (
     <div className="flex flex-col gap-8">
@@ -22,8 +17,8 @@ export default function UpdatesPage() {
           Updates
         </h1>
         <p className="mt-3 text-base leading-relaxed text-ink-600 dark:text-ink-300">
-          Progress reports and announcements from the DPK team, written in
-          Markdown and reviewed on GitHub.
+          Progress reports and announcements from the DPK team, in
+          chronological order.
         </p>
       </div>
 
@@ -36,10 +31,9 @@ export default function UpdatesPage() {
       ) : (
         <FilterableGrid
           items={updates.map((u) => ({ __type: "update", ...u }))}
-          statusOptions={statuses}
           emptyState={
             <p className="rounded-2xl border border-dashed border-ink-300 bg-white/60 p-8 text-center text-sm text-ink-500 dark:border-ink-700 dark:bg-ink-900/40 dark:text-ink-400">
-              No updates match the selected filters.
+              No updates available yet.
             </p>
           }
         />

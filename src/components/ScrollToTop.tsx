@@ -1,6 +1,7 @@
 "use client";
 
 import { useEffect, useState } from "react";
+import { scrollToY } from "@/lib/scroll";
 
 export function ScrollToTop() {
   const [visible, setVisible] = useState(false);
@@ -17,7 +18,7 @@ export function ScrollToTop() {
   return (
     <button
       type="button"
-      onClick={() => window.scrollTo({ top: 0, behavior: "smooth" })}
+      onClick={() => scrollToY(0)}
       aria-label="Back to top"
       className="no-print fixed bottom-6 right-6 z-40 inline-flex h-11 w-11 items-center justify-center rounded-full bg-brand-600 text-white shadow-lg transition hover:scale-105 hover:bg-brand-700 hover:shadow-xl"
     >

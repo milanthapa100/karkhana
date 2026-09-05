@@ -3,11 +3,14 @@ import { getSop, listSops } from "@/lib/sop";
 import { formatDate } from "@/lib/date";
 import { readingMinutes } from "@/lib/reading";
 import { initials, avatarColor } from "@/lib/avatar";
-import { StatusBadge } from "@/components/StatusBadge";
+import { extractHeadings } from "@/lib/toc";
+import { extractRelated, stripRelatedSection } from "@/lib/related";
 import { Breadcrumbs } from "@/components/Breadcrumbs";
 import { DocsLayout } from "@/components/DocsLayout";
 import { Prose } from "@/components/Prose";
-import { ReadingProgress } from "@/components/ReadingProgress";
+import { TableOfContents } from "@/components/TableOfContents";
+import { ArticleActions } from "@/components/ArticleActions";
+import { RelatedSops } from "@/components/RelatedSops";
 
 export async function generateMetadata({ params }: { params: Promise<{ slug: string }> }) {
   const { slug } = await params;
@@ -33,10 +36,13 @@ export default async function SopPage({
 
   const mins = readingMinutes(sop.body);
   const dateText = formatDate(sop.date);
+  const headings = extractHeadings(sop.body);
+  const related = extractRelated(sop.body);
+  const body = stripRelatedSection(sop.body);
+  const editUrl = `https://github.com/milanthapa100/karkhana/edit/main/content/sops/${slug}.md`;
 
   return (
-    <div className="mx-auto max-w-4xl">
-      <ReadingProgress />
+    <div className="mx-auto max-w-6xl">
       <Breadcrumbs
         crumbs={[
           { label: "SOPs", href: "/sops" },
@@ -45,27 +51,23 @@ export default async function SopPage({
       />
 
       <div className="mt-6">
-        <DocsLayout>
-          <article className="overflow-hidden rounded-3xl border border-ink-200/80 bg-white shadow-sm dark:border-ink-800 dark:bg-ink-900">
-            <header className="relative px-6 pb-8 pt-10 sm:px-10 sm:pt-14">
-              <div
-                aria-hidden="true"
-                className="pointer-events-none absolute inset-x-0 top-0 h-44 bg-white dark:bg-ink-900 sm:h-56"
-              />
-              <div className="relative">
-                <h1 className="font-display text-3xl font-semibold leading-tight tracking-tight text-ink-900 sm:text-4xl lg:text-[2.75rem] dark:text-white">
-                  {sop.title}
-                </h1>
+        <DocsLayout sidebar={headings.length > 0 ? <TableOfContents headings={headings} /> : undefined}>
+          <article className="max-w-3xl">
+            <header className="border-b border-ink-200 pb-8 dark:border-ink-800">
+              <h1 className="font-display text-3xl font-semibold leading-tight tracking-tight text-ink-900 sm:text-4xl dark:text-white">
+                {sop.title}
+              </h1>
 
-                {sop.summary && (
-                  <p className="mt-3 max-w-2xl text-base leading-relaxed text-ink-600 dark:text-ink-300">
-                    {sop.summary}
-                  </p>
-                )}
+              {sop.summary && (
+                <p className="mt-4 max-w-2xl text-base leading-relaxed text-ink-600 dark:text-ink-300">
+                  {sop.summary}
+                </p>
+              )}
 
-                <div className="mt-6 flex flex-wrap items-center gap-x-4 gap-y-3">
+              <div className="mt-7 flex flex-wrap items-center justify-between gap-4">
+                <div className="flex items-center gap-x-4 gap-y-3">
                   <div
-                    className={`flex h-11 w-11 items-center justify-center rounded-full font-display text-sm font-semibold text-white shadow-sm ${avatarColor(
+                    className={`flex h-10 w-10 items-center justify-center rounded-full font-display text-sm font-semibold text-white shadow-sm ${avatarColor(
                       sop.owner,
                     )}`}
                     aria-hidden="true"
@@ -81,17 +83,14 @@ export default async function SopPage({
                       {mins > 1 ? ` · ${mins} min read` : ""}
                     </span>
                   </div>
-                  <div className="ml-auto">
-                    <StatusBadge status={sop.status} />
-                  </div>
                 </div>
+                <ArticleActions editUrl={editUrl} />
               </div>
             </header>
 
-            <div className="px-6 pb-10 sm:px-10">
-              <div className="border-t border-ink-200 pt-8 dark:border-ink-800">
-                <Prose markdown={sop.body} />
-              </div>
+            <div className="pt-8">
+              <Prose markdown={body} />
+              <RelatedSops links={related} />
             </div>
           </article>
         </DocsLayout>

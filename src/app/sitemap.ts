@@ -4,24 +4,25 @@ import { listSops } from "@/lib/sop";
 
 const BASE = (process.env.NEXT_PUBLIC_SITE_URL ?? "http://localhost:3000").replace(/\/+$/, "");
 
+function toDate(value: string): Date {
+  const d = new Date(`${value}T00:00:00Z`);
+  return Number.isNaN(d.getTime()) ? new Date() : d;
+}
+
 export default function sitemap(): MetadataRoute.Sitemap {
   const now = new Date();
-  const updates = listUpdates()
-    .filter((u) => u.status === "published")
-    .map((u) => ({
-      url: `${BASE}/updates/${u.slug}`,
-      lastModified: now,
-      changeFrequency: "monthly" as const,
-      priority: 0.7,
-    }));
-  const sops = listSops()
-    .filter((s) => s.status === "active")
-    .map((s) => ({
-      url: `${BASE}/sops/${s.slug}`,
-      lastModified: now,
-      changeFrequency: "monthly" as const,
-      priority: 0.8,
-    }));
+  const updates = listUpdates().map((u) => ({
+    url: `${BASE}/updates/${u.slug}`,
+    lastModified: u.date ? toDate(u.date) : now,
+    changeFrequency: "monthly" as const,
+    priority: 0.7,
+  }));
+  const sops = listSops().map((s) => ({
+    url: `${BASE}/sops/${s.slug}`,
+    lastModified: s.date ? toDate(s.date) : now,
+    changeFrequency: "monthly" as const,
+    priority: 0.8,
+  }));
 
   return [
     { url: `${BASE}/`, lastModified: now, changeFrequency: "daily", priority: 1 },

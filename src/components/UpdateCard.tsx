@@ -1,37 +1,41 @@
 import Link from "next/link";
-import { formatDate } from "@/lib/date";
+import { readingMinutes } from "@/lib/reading";
 import type { Update } from "@/lib/content";
-import { StatusBadge } from "./StatusBadge";
 
 export default function UpdateCard({ update }: { update: Update }) {
+  const mins = readingMinutes(update.body);
+  const authorName = update.author || "DPK Team";
+  const excerpt = update.body.trim().split(/\n+/)[0]?.replace(/^#+\s*/, "");
+
   return (
-    <Link
-      href={`/updates/${update.slug}`}
-      className="group relative flex flex-col gap-1 overflow-hidden rounded-2xl border border-ink-200 bg-white p-6 shadow-sm dark:border-ink-800 dark:bg-ink-900"
-    >
-      <div className="relative flex items-start justify-between gap-3">
-        <h2 className="line-clamp-2 font-display text-lg font-semibold tracking-tight text-ink-900 group-hover:text-brand-700 dark:text-white dark:group-hover:text-brand-300">
-          {update.title}
-        </h2>
-        <svg
-          className="h-5 w-5 shrink-0 text-ink-300 transition group-hover:translate-x-1 group-hover:-translate-y-0.5 group-hover:text-brand-600 dark:text-ink-600"
-          viewBox="0 0 24 24"
-          fill="none"
-          stroke="currentColor"
-          strokeWidth="2"
-          strokeLinecap="round"
-          strokeLinejoin="round"
-          aria-hidden="true"
-        >
-          <path d="M7 17 17 7M8 7h9v9" />
-        </svg>
+    <li className="group relative border-b border-ink-100 py-6 last:border-0 hover:bg-ink-50/50 dark:border-ink-800/70 dark:hover:bg-ink-900/40">
+      <div>
+        <div className="flex flex-wrap items-center gap-x-3 gap-y-2">
+          <Link
+            href={`/updates/${update.slug}`}
+            className="group/title font-display text-lg font-semibold tracking-tight text-ink-900 transition-colors after:absolute after:inset-0 hover:text-brand-600 dark:text-white dark:hover:text-brand-400"
+          >
+            {update.title}
+          </Link>
+        </div>
+
+        {excerpt && (
+          <p className="mt-1.5 line-clamp-2 text-sm leading-relaxed text-ink-600 dark:text-ink-300">
+            {excerpt}
+          </p>
+        )}
+
+        <div className="mt-3 flex items-center gap-2.5">
+          <span className="text-xs font-medium text-ink-700 dark:text-ink-200">
+            {authorName}
+          </span>
+          {mins > 1 && (
+            <span className="text-xs text-ink-400 dark:text-ink-500">
+              · {mins} min read
+            </span>
+          )}
+        </div>
       </div>
-      <p className="relative mt-1 text-sm text-ink-500 dark:text-ink-400">
-        {update.author} &middot; {formatDate(update.date)}
-      </p>
-      <div className="relative mt-3">
-        <StatusBadge status={update.status} />
-      </div>
-    </Link>
+    </li>
   );
 }

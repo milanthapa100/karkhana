@@ -20,7 +20,8 @@ function toIsoDate(value: unknown): string {
   if (value instanceof Date && !Number.isNaN(value.getTime())) {
     return value.toISOString().slice(0, 10);
   }
-  return String(value ?? "");
+  const str = String(value ?? "").trim();
+  return str ? str.slice(0, 10) : "";
 }
 
 export function listSops(): Sop[] {
@@ -37,7 +38,7 @@ export function listSops(): Sop[] {
         title: String(data.title ?? file),
         author: String(data.author ?? ""),
         date: toIsoDate(data.date),
-        category: String(data.category || "sop"),
+        category: String(data.category ?? "sop"),
         status: String(data.status ?? ""),
         summary: String(data.summary ?? ""),
         owner: String(data.owner ?? ""),
