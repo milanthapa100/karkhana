@@ -5,7 +5,7 @@ summary: How reporting and decision-making work within the DPK unit, and who to 
 owner: Suprash Thapa
 date: 2026-09-05
 category: sop
-status: draft
+status: active
 ---
 
 ## Description
