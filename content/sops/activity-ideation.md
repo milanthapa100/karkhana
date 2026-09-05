@@ -3,7 +3,7 @@ title: Activity Ideation
 author: Suprash Thapa
 summary: How to generate, filter, and pick activity ideas that fit the learning objective and classroom constraints.
 owner: Suprash Thapa
-date: 2026-09-1
+date: 2026-09-01
 category: sop
 status: active
 ---
