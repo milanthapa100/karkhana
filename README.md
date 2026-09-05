@@ -17,6 +17,18 @@ Write Markdown → Branch → Pull Request → Validation → Review → Merge �
   office PC on the department network.
 - Validation runs automatically on every Pull Request.
 
+## Features
+
+- **Fast search (⌘K / Ctrl+K)** with fuzzy, typo-tolerant matching across all
+  titles, summaries, and bodies.
+- **Edit on GitHub** and **Print** actions on every SOP and update page.
+- **Related SOPs** cards linking between related procedures.
+- **Collapsible sidebar** that remembers its state; search stays available via
+  the keyboard shortcut when collapsed.
+- **Print-friendly layout**: reading chrome (sidebar, nav, table of contents)
+  is hidden when you print an article.
+- **Light and dark mode** with a persistent toggle.
+
 ## Content types
 
 | Type            | Location           | Purpose                                             |
