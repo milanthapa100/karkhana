@@ -3,11 +3,6 @@ name: Validate Content
 on:
   pull_request:
     branches: [main]
-    paths:
-      - "content/**"
-      - "scripts/**"
-      - "schema.json"
-      - ".github/workflows/validate.yml"
 
 jobs:
   validate:

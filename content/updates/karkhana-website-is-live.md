@@ -6,8 +6,6 @@ category: update
 status: published
 ---
 
-# Karkhana Website is Live
-
 ## Description
 
 The Karkhana site is now deployed and live. Content lives in `content/` on

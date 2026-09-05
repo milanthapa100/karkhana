@@ -1,9 +1,22 @@
-import Link from "next/link";
 import { notFound } from "next/navigation";
-import ReactMarkdown from "react-markdown";
-import remarkGfm from "remark-gfm";
 import { getSop, listSops } from "@/lib/sop";
 import { formatDate } from "@/lib/date";
+import { readingMinutes } from "@/lib/reading";
+import { initials, avatarColor } from "@/lib/avatar";
+import { StatusBadge } from "@/components/StatusBadge";
+import { Breadcrumbs } from "@/components/Breadcrumbs";
+import { DocsLayout } from "@/components/DocsLayout";
+import { Prose } from "@/components/Prose";
+import { ReadingProgress } from "@/components/ReadingProgress";
+
+export async function generateMetadata({ params }: { params: Promise<{ slug: string }> }) {
+  const { slug } = await params;
+  const sop = getSop(slug);
+  return {
+    title: sop?.title ?? "SOPs",
+    description: sop?.summary,
+  };
+}
 
 export function generateStaticParams() {
   return listSops().map((s) => ({ slug: s.slug }));
@@ -18,25 +31,71 @@ export default async function SopPage({
   const sop = getSop(slug);
   if (!sop) notFound();
 
+  const mins = readingMinutes(sop.body);
+  const dateText = formatDate(sop.date);
+
   return (
-    <article className="article">
-      <Link className="back" href="/sops">
-        &larr; All SOPs
-      </Link>
-      <h1>{sop.title}</h1>
-      <p className="meta">
-        Owner: {sop.owner} &middot; {formatDate(sop.date)} &middot;{" "}
-        <span className="badge">{sop.status}</span>
-      </p>
-      {sop.summary && (
-        <>
-          <p className="summary">{sop.summary}</p>
-          <hr className="divider" />
-        </>
-      )}
-      <div className="prose">
-        <ReactMarkdown remarkPlugins={[remarkGfm]}>{sop.body}</ReactMarkdown>
+    <div className="mx-auto max-w-4xl">
+      <ReadingProgress />
+      <Breadcrumbs
+        crumbs={[
+          { label: "SOPs", href: "/sops" },
+          { label: sop.title },
+        ]}
+      />
+
+      <div className="mt-6">
+        <DocsLayout>
+          <article className="overflow-hidden rounded-3xl border border-ink-200/80 bg-white shadow-sm dark:border-ink-800 dark:bg-ink-900">
+            <header className="relative px-6 pb-8 pt-10 sm:px-10 sm:pt-14">
+              <div
+                aria-hidden="true"
+                className="pointer-events-none absolute inset-x-0 top-0 h-44 bg-white dark:bg-ink-900 sm:h-56"
+              />
+              <div className="relative">
+                <h1 className="font-display text-3xl font-semibold leading-tight tracking-tight text-ink-900 sm:text-4xl lg:text-[2.75rem] dark:text-white">
+                  {sop.title}
+                </h1>
+
+                {sop.summary && (
+                  <p className="mt-3 max-w-2xl text-base leading-relaxed text-ink-600 dark:text-ink-300">
+                    {sop.summary}
+                  </p>
+                )}
+
+                <div className="mt-6 flex flex-wrap items-center gap-x-4 gap-y-3">
+                  <div
+                    className={`flex h-11 w-11 items-center justify-center rounded-full font-display text-sm font-semibold text-white shadow-sm ${avatarColor(
+                      sop.owner,
+                    )}`}
+                    aria-hidden="true"
+                  >
+                    {initials(sop.owner) || "K"}
+                  </div>
+                  <div className="flex flex-col">
+                    <span className="text-sm font-medium text-ink-900 dark:text-white">
+                      {sop.owner || "DPK Team"}
+                    </span>
+                    <span className="text-xs text-ink-500 dark:text-ink-400">
+                      {dateText}
+                      {mins > 1 ? ` · ${mins} min read` : ""}
+                    </span>
+                  </div>
+                  <div className="ml-auto">
+                    <StatusBadge status={sop.status} />
+                  </div>
+                </div>
+              </div>
+            </header>
+
+            <div className="px-6 pb-10 sm:px-10">
+              <div className="border-t border-ink-200 pt-8 dark:border-ink-800">
+                <Prose markdown={sop.body} />
+              </div>
+            </div>
+          </article>
+        </DocsLayout>
       </div>
-    </article>
+    </div>
   );
 }

@@ -1,179 +1,148 @@
-*,
-*::before,
-*::after {
-  box-sizing: border-box;
+@import "tailwindcss";
+@plugin "@tailwindcss/typography";
+
+/* Class-based dark mode (toggled on <html>). */
+@custom-variant dark (&:where(.dark, .dark *));
+
+@theme {
+  --font-sans: "Poppins", ui-sans-serif, system-ui, -apple-system, "Segoe UI",
+    Roboto, "Helvetica Neue", Arial, sans-serif;
+  --font-display: "Sora", "Poppins", ui-sans-serif, system-ui, -apple-system,
+    "Segoe UI", Arial, sans-serif;
+  --font-serif: "Poppins", ui-sans-serif, system-ui, "Segoe UI", sans-serif;
+
+  /* Brand (emerald) scale */
+  --color-brand-50: #ecfdf5;
+  --color-brand-100: #d1fae5;
+  --color-brand-200: #a7f3d0;
+  --color-brand-300: #6ee7b7;
+  --color-brand-400: #34d399;
+  --color-brand-500: #10b981;
+  --color-brand-600: #059669;
+  --color-brand-700: #047857;
+  --color-brand-800: #065f46;
+  --color-brand-900: #064e3b;
+
+  /* Teal (secondary accent) */
+  --color-accent-50: #f0fdfa;
+  --color-accent-100: #ccfbf1;
+  --color-accent-200: #99f6e4;
+  --color-accent-300: #5eead4;
+  --color-accent-400: #2dd4bf;
+  --color-accent-500: #14b8a6;
+  --color-accent-600: #0d9488;
+  --color-accent-700: #0f766e;
+
+  /* Sky (tertiary accent) */
+  --color-sky-deep-300: #7dd3fc;
+  --color-sky-deep-400: #38bdf8;
+  --color-sky-deep-500: #0ea5e9;
+  --color-sky-deep-600: #0284c7;
+
+  /* Ink (neutral) scale */
+  --color-ink-50: #f8fafc;
+  --color-ink-100: #f1f5f9;
+  --color-ink-200: #e2e8f0;
+  --color-ink-300: #cbd5e1;
+  --color-ink-400: #94a3b8;
+  --color-ink-500: #64748b;
+  --color-ink-600: #475569;
+  --color-ink-700: #334155;
+  --color-ink-800: #1e293b;
+  --color-ink-900: #0f172a;
+  --color-ink-950: #020617;
+
 }
 
-:root {
-  --bg: #fafaf9;
-  --fg: #1c1917;
-  --muted: #57534e;
-  --border: #e7e5e4;
-  --accent: #0f766e;
+@layer base {
+  html {
+    scroll-behavior: smooth;
+    -webkit-text-size-adjust: 100%;
+    scrollbar-color: var(--color-ink-300) transparent;
+  }
+  html.dark {
+    scrollbar-color: var(--color-ink-700) transparent;
+  }
+
+  body {
+    @apply bg-ink-50 text-ink-900 antialiased dark:bg-ink-950 dark:text-ink-100;
+    font-feature-settings: "kern", "liga", "calt";
+  }
+
+  ::selection {
+    @apply bg-brand-200 text-ink-900;
+  }
+  .dark ::selection {
+    @apply bg-brand-500/40 text-white;
+  }
+
+  /* Accessible focus ring for all interactive elements */
+  :focus-visible {
+    outline: 2px solid var(--color-brand-500);
+    outline-offset: 2px;
+  }
+  .dark :focus-visible {
+    outline-color: var(--color-brand-400);
+  }
+
+  /* Thin, theme-aware scrollbar */
+  ::-webkit-scrollbar {
+    width: 10px;
+    height: 10px;
+  }
+  ::-webkit-scrollbar-track {
+    background: transparent;
+  }
+  ::-webkit-scrollbar-thumb {
+    background: var(--color-ink-300);
+    border-radius: 9999px;
+    border: 2px solid transparent;
+    background-clip: content-box;
+  }
+  .dark ::-webkit-scrollbar-thumb {
+    background: var(--color-ink-700);
+    background-clip: content-box;
+    border: 2px solid transparent;
+  }
 }
 
-body {
-  margin: 0;
-  font-family: system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
-  background: var(--bg);
-  color: var(--fg);
-  line-height: 1.6;
+@layer utilities {
+  /* Glass surface */
+  .glass {
+    @apply border border-white/60 bg-white/70 backdrop-blur-xl dark:border-white/10 dark:bg-white/5;
+  }
+
+  /* Card hover lift */
+  .card-hover {
+    @apply transition-all duration-300 hover:-translate-y-1 hover:shadow-xl;
+  }
 }
 
-.site-header {
-  border-bottom: 1px solid var(--border);
-  background: #fff;
-  padding: 0.75rem 1.5rem;
+@layer base {
+  /* Reduced motion */
+  @media (prefers-reduced-motion: reduce) {
+    html {
+      scroll-behavior: auto;
+    }
+    *,
+    *::before,
+    *::after {
+      animation-duration: 0.01ms !important;
+      animation-iteration-count: 1 !important;
+      transition-duration: 0.01ms !important;
+    }
+  }
 }
 
-.nav {
-  max-width: 760px;
-  margin: 0 auto;
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-}
-
-.nav-links {
-  display: flex;
-  gap: 1rem;
-}
-
-.nav-links a {
-  color: var(--fg);
-  text-decoration: none;
-  font-size: 0.95rem;
-}
-
-.nav-links a:hover {
-  color: var(--accent);
-}
-
-.brand {
-  font-weight: 700;
-  font-size: 1.25rem;
-  color: var(--accent);
-  text-decoration: none;
-}
-
-.container {
-  max-width: 760px;
-  margin: 0 auto;
-  padding: 2rem 1.5rem;
-}
-
-.site-footer {
-  border-top: 1px solid var(--border);
-  text-align: center;
-  padding: 1.5rem;
-  color: var(--muted);
-  font-size: 0.875rem;
-}
-
-.card-list {
-  display: grid;
-  gap: 1rem;
-  margin: 1.5rem 0 0;
-}
-
-.card {
-  display: block;
-  padding: 1.25rem;
-  background: #fff;
-  border: 1px solid var(--border);
-  border-radius: 10px;
-  text-decoration: none;
-  color: inherit;
-  transition: border-color 0.15s ease, box-shadow 0.15s ease;
-}
-
-.card:hover {
-  border-color: var(--accent);
-  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.06);
-}
-
-.card h2 {
-  margin: 0 0 0.25rem;
-  font-size: 1.15rem;
-}
-
-.card .meta {
-  color: var(--muted);
-  font-size: 0.85rem;
-}
-
-.card-summary {
-  color: var(--muted);
-  font-size: 0.9rem;
-  margin: 0.5rem 0;
-}
-
-.summary {
-  color: var(--muted);
-  font-size: 1rem;
-  margin: 0.75rem 0 0;
-}
-
-.badge {
-  display: inline-block;
-  padding: 0.1rem 0.5rem;
-  border-radius: 999px;
-  font-size: 0.75rem;
-  background: #ccfbf1;
-  color: #115e59;
-}
-
-.article h1 {
-  margin: 0 0 0.25rem;
-}
-
-.article .meta {
-  color: var(--muted);
-  font-size: 0.9rem;
-  margin-bottom: 0.25rem;
-}
-
-.article .divider {
-  border: 0;
-  border-top: 1px solid var(--border);
-  margin: 1.25rem 0;
-}
-
-.prose h2 {
-  margin-top: 1.75rem;
-}
-
-.prose p {
-  margin: 0.75rem 0;
-}
-
-.prose ul {
-  padding-left: 1.25rem;
-}
-
-.prose li {
-  margin: 0.4rem 0;
-}
-
-.prose input[type="checkbox"] {
-  margin-right: 0.5rem;
-  transform: scale(1.15);
-}
-
-.prose li:has(> input[type="checkbox"]) {
-  list-style: none;
-  margin-left: -1.25rem;
-}
-
-.back {
-  display: inline-block;
-  margin-bottom: 1.5rem;
-  color: var(--accent);
-  text-decoration: none;
-  font-size: 0.9rem;
-}
-
-.empty {
-  color: var(--muted);
-  margin-top: 1.5rem;
+@media print {
+  body {
+    background: white !important;
+    color: black !important;
+  }
+  .no-print {
+    display: none !important;
+  }
+  .print-break-avoid {
+    break-inside: avoid;
+  }
 }
