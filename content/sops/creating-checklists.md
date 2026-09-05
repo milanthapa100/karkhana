@@ -3,7 +3,7 @@ title: Creating Checklists
 author: Suprash Thapa
 summary: How unit members should create simple work checklists after completing tasks.
 owner: Suprash Thapa
-date: 2026-09-08
+date: 2026-09-1
 category: sop
 status: active
 ---
