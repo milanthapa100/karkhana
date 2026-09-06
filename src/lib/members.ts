@@ -33,7 +33,7 @@ export const MEMBERS: Member[] = [
   {
     name: "Lujala Dangol",
     role: "Research & Design Intern",
-    github: "lujaladangol",
+    github: "lujala07",
   },
   {
     name: "Ishan Bhujel",
