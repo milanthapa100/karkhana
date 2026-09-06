@@ -1401,4 +1401,4 @@ Not:
 | Date | Version | Change | Updated By |
 | --- | --- | --- | --- |
 | [15th August] | v0.1 | Initial Storification SOP | [Sahista Gurung] |
-| [6th August] | v0.2 | Added story style, character behavior, CAT connection, question rules, MCQ rules, closure rules, grade-level rules, workflow, and quality checklist | [Name] |
+| [6th August] | v0.2 | Added story style, character behavior, CAT connection, question rules, MCQ rules, closure rules, grade-level rules, workflow, and quality checklist | [Sahista Gurung] |
