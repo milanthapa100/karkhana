@@ -1,4 +1,70 @@
-# Karkhana Storification SOP
+---
+title: Ideation and Writing of Storification
+author: Sahista Gurung
+summary: How to turn a Karkhana lesson or activity into a simple, child-centered story that creates curiosity and naturally leads bacchaharu into making, testing, exploring, and thinking.
+owner: Suprash Thapa
+date: 2026-09-09
+category: sop
+status: active
+---
+
+## Description
+
+This SOP explains how to turn a Karkhana lesson or activity into a simple, child-centered story that creates curiosity and naturally leads bacchaharu into making, testing, exploring, and thinking.
+
+Storification is not just adding characters or dialogue. A good storified lesson should make bacchaharu feel:
+
+> **"I want to try this!"**
+
+Not:
+
+> **"I have to study this."**
+
+The story should create a meaningful reason for the activity.
+
+---
+
+## Steps
+
+### Step 1: Understand the Lesson
+
+Read the complete CAT flow before writing. Understand what happens in Curiosity, what bacchaharu actually do in the activity, and what they should discover.
+
+### Step 2: Find the Core Experience
+
+Ask: What is the most interesting thing bacchaharu will actually experience?
+
+### Step 3: Create the Story Situation with OMD
+
+- **Objective** – What does the character want to do?
+- **Motivation** – Why does the character care?
+- **Difficulty** – What is stopping the character?
+
+### Step 4: Build the 5-Act Story
+
+Use **Notice → Wonder → Try → Discover → Connect**.
+
+### Step 5: Write the Storified Curiosity
+
+Start from the story, create one problem, ask a question, and stop before the answer is given.
+
+### Step 6: Transition to the Activity
+
+Make the activity feel like the solution to the story problem. Let the activity create the evidence and discovery.
+
+### Step 7: Write Thinking Questions
+
+Help bacchaharu notice what they experienced, compare, and connect.
+
+### Step 8: Write the Closure
+
+Return to the original story problem and complete the story loop.
+
+### Step 9: Review and Improve
+
+Check against the Story Review Checklist and the Storification Quality Gate.
+
+---
 
 **SOP Name:** Karkhana Storification  
 **Unit:** DPK Unit  
@@ -1385,7 +1451,7 @@ Not:
 
 ---
 
-# Related Documents
+## Related
 
 - SOP – Creating Checklists
 - CAT Lesson Flow
