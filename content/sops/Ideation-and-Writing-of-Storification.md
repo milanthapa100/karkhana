@@ -1,4 +1,14 @@
-# Karkhana Storification SOP
+---
+title: Ideation and Writting of Storification
+author: Sahista Gurung
+summary: How to turn a Karkhana lesson or activity into a simple, child-centered story that creates curiosity and naturally leads bacchaharu into making, testing, exploring, and thinking.
+owner: Suprash Thapa
+date: 2026-09-09
+category: sop
+status: active
+---
+
+
 
 **SOP Name:** Karkhana Storification  
 **Unit:** DPK Unit  
