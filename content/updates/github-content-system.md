@@ -22,7 +22,6 @@ shown on the Karkhana website, with GitHub as the source of truth.
 - All content changes go through a branch and Pull Request, with validation and review before merging.
 - Search and the command palette index updates, SOPs, and checklists.
 - Checklists are interactive: checkable items, progress tracking, and per-visitor state saved in the browser.
-- Website is live and receiving new content.
 
 ## Next Steps
 
