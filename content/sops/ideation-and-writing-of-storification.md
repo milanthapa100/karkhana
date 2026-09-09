@@ -70,10 +70,6 @@ Check against the Story Review Checklist and the Storification Quality Gate.
 **Unit:** DPK Unit  
 **Version:** v0.2  
 **Owner:** Unit Curator  
-**Last Reviewed:** [6th September]
-
----
-
 # 1. Purpose
 
 This SOP explains how to turn a Karkhana lesson or activity into a simple, child-centered story that creates curiosity and naturally leads bacchaharu into making, testing, exploring, and thinking.
