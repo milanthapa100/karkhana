@@ -4,7 +4,7 @@ import { useEffect, useMemo, useState } from "react";
 import { createHeadingIdResolver } from "@/lib/toc";
 
 type ChecklistItem = { key: string; label: string };
-type ChecklistGroup = { title: string; items: ChecklistItem[]; note: string[] };
+type ChecklistGroup = { title: string; items: ChecklistItem[]; note: string[]; id: string };
 
 function parseBody(body: string): { intro: string[]; groups: ChecklistGroup[] } {
   const intro: string[] = [];
@@ -17,7 +17,7 @@ function parseBody(body: string): { intro: string[]; groups: ChecklistGroup[] } 
 
     const heading = line.match(/^##\s+(.+)$/);
     if (heading) {
-      current = { title: heading[1].trim(), items: [], note: [] };
+      current = { title: heading[1].trim(), items: [], note: [], id: "" };
       groups.push(current);
       continue;
     }
@@ -65,8 +65,14 @@ export function ChecklistView({
     }
   }, [checked, storageKey]);
 
-  const { intro, groups } = useMemo(() => parseBody(body), [body]);
-  const resolveId = useMemo(() => createHeadingIdResolver(), []);
+  const { intro, groups } = useMemo(() => {
+    const parsed = parseBody(body);
+    const resolveId = createHeadingIdResolver();
+    for (const group of parsed.groups) {
+      group.id = resolveId(group.title);
+    }
+    return parsed;
+  }, [body]);
 
   const total = groups.reduce((n, g) => n + g.items.length, 0);
   const done = groups.reduce(
@@ -120,7 +126,7 @@ export function ChecklistView({
       {groups.map((group) => (
         <section key={group.title} className="flex flex-col gap-3">
           <h2
-            id={resolveId(group.title)}
+            id={group.id}
             className="font-display text-lg font-semibold tracking-tight text-ink-900 dark:text-white"
           >
             {group.title}
