@@ -26,7 +26,7 @@ export function CommandPalette({ items }: { items: SearchItem[] }) {
   const [open, setOpen] = useState(false);
   const [query, setQuery] = useState("");
   const [active, setActive] = useState(0);
-  const [filterType, setFilterType] = useState<"all" | "update" | "sop">("all");
+  const [filterType, setFilterType] = useState<"all" | "update" | "sop" | "checklist">("all");
   const inputRef = useRef<HTMLInputElement>(null);
   const listRef = useRef<HTMLDivElement>(null);
   const dialogRef = useRef<HTMLDivElement>(null);
@@ -131,9 +131,11 @@ export function CommandPalette({ items }: { items: SearchItem[] }) {
   const grouped = useMemo(() => {
     const updates = results.filter((r) => r.type === "update");
     const sops = results.filter((r) => r.type === "sop");
+    const checklists = results.filter((r) => r.type === "checklist");
     return [
       updates.length ? { label: "Updates", list: updates } : null,
       sops.length ? { label: "SOPs", list: sops } : null,
+      checklists.length ? { label: "Checklists", list: checklists } : null,
     ].filter(Boolean) as { label: string; list: SearchItem[] }[];
   }, [results]);
 
@@ -206,7 +208,7 @@ export function CommandPalette({ items }: { items: SearchItem[] }) {
         </div>
 
         <div className="flex items-center gap-1.5 border-b border-ink-100/70 bg-ink-50/40 px-4 py-2 dark:border-ink-800/70 dark:bg-ink-900/40">
-          {(["all", "update", "sop"] as const).map((t) => (
+          {(["all", "update", "sop", "checklist"] as const).map((t) => (
             <button
               key={t}
               type="button"
@@ -220,7 +222,13 @@ export function CommandPalette({ items }: { items: SearchItem[] }) {
                   : "text-ink-600 hover:bg-ink-100 dark:text-ink-400 dark:hover:bg-ink-800"
               }`}
             >
-              {t === "all" ? "All Content" : t === "update" ? "Updates" : "SOPs"}
+              {t === "all"
+                ? "All Content"
+                : t === "update"
+                  ? "Updates"
+                  : t === "sop"
+                    ? "SOPs"
+                    : "Checklists"}
             </button>
           ))}
         </div>
@@ -271,6 +279,8 @@ export function CommandPalette({ items }: { items: SearchItem[] }) {
                       >
                         {it.type === "update" ? (
                           <path d="M12 8v4l2.5 2.5" />
+                        ) : it.type === "checklist" ? (
+                          <path d="M9 12l2 2 4-4" />
                         ) : (
                           <path d="M9 12l2 2 4-4" />
                         )}
@@ -289,7 +299,9 @@ export function CommandPalette({ items }: { items: SearchItem[] }) {
                       className={`shrink-0 rounded-md px-1.5 py-0.5 text-[10px] font-semibold uppercase ${
                         it.type === "update"
                           ? "bg-brand-100 text-brand-700 dark:bg-brand-500/20 dark:text-brand-300"
-                          : "bg-sky-deep-500/10 text-sky-deep-600 dark:bg-sky-deep-500/20 dark:text-sky-deep-400"
+                          : it.type === "checklist"
+                            ? "bg-emerald-500/10 text-emerald-600 dark:bg-emerald-500/20 dark:text-emerald-400"
+                            : "bg-sky-deep-500/10 text-sky-deep-600 dark:bg-sky-deep-500/20 dark:text-sky-deep-400"
                       }`}
                     >
                       {it.type}

@@ -1,5 +1,6 @@
 import { listUpdates } from "./content";
 import { listSops } from "./sop";
+import { listChecklists } from "./checklist";
 import type { SearchItem } from "@/lib/types";
 
 export function buildSearchIndex(): SearchItem[] {
@@ -29,5 +30,18 @@ export function buildSearchIndex(): SearchItem[] {
     date: s.date,
   }));
 
-  return [...updates, ...sops];
+  const checklists: SearchItem[] = listChecklists().map((c) => ({
+    title: c.title,
+    href: `/checklists/${c.slug}`,
+    type: "checklist",
+    snippet: c.summary || c.status,
+    searchText: [c.title, c.summary, c.status, c.body]
+      .filter(Boolean)
+      .join(" ")
+      .replace(/\s+/g, " "),
+    status: c.status,
+    date: c.date,
+  }));
+
+  return [...updates, ...sops, ...checklists];
 }
