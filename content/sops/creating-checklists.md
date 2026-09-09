@@ -6,6 +6,7 @@ owner: Suprash Thapa
 date: 2026-09-01
 category: sop
 status: active
+type: checklist
 ---
 
 ## Description

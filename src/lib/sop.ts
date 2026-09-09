@@ -11,6 +11,7 @@ export type Sop = {
   status: string;
   summary: string;
   owner: string;
+  type: "sop" | "checklist";
   body: string;
 };
 
@@ -42,6 +43,7 @@ export function listSops(): Sop[] {
         status: String(data.status ?? ""),
         summary: String(data.summary ?? ""),
         owner: String(data.owner ?? ""),
+        type: (data.type === "checklist" ? "checklist" : "sop") as Sop["type"],
         body: content,
       };
     })

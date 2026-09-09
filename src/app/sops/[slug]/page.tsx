@@ -58,6 +58,12 @@ export default async function SopPage({
                 {sop.title}
               </h1>
 
+              {sop.type === "checklist" && (
+                <span className="mt-2 inline-flex items-center rounded-md bg-sky-deep-500/10 px-2 py-0.5 text-[11px] font-semibold uppercase tracking-wide text-sky-deep-600 ring-1 ring-inset ring-sky-deep-500/15 dark:bg-sky-deep-500/20 dark:text-sky-deep-400 dark:ring-sky-deep-500/30">
+                  Checklist
+                </span>
+              )}
+
               {sop.summary && (
                 <p className="mt-4 max-w-2xl text-base leading-relaxed text-ink-600 dark:text-ink-300">
                   {sop.summary}

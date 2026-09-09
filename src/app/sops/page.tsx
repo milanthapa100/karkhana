@@ -1,6 +1,6 @@
 import { listSops } from "@/lib/sop";
 import { EmptyState } from "@/components/EmptyState";
-import { FilterableGrid } from "@/components/FilterableGrid";
+import { SopsDirectory } from "@/components/SopsDirectory";
 
 export const metadata = {
   title: "Standard Operating Procedures",
@@ -30,14 +30,7 @@ export default function SopsPage() {
           code="content/sops/"
         />
       ) : (
-        <FilterableGrid
-          items={sops.map((s) => ({ __type: "sop", ...s }))}
-          emptyState={
-            <p className="rounded-2xl border border-dashed border-ink-300 bg-white/60 p-8 text-center text-sm text-ink-500 dark:border-ink-700 dark:bg-ink-900/40 dark:text-ink-400">
-              No SOPs available yet.
-            </p>
-          }
-        />
+        <SopsDirectory sops={sops} />
       )}
     </div>
   );
