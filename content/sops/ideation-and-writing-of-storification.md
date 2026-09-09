@@ -1449,16 +1449,13 @@ Not:
 
 ## Related
 
-- SOP – Creating Checklists
-- CAT Lesson Flow
-- OMD Framework
-- 5-Act Story Framework
-- Character Personality Guide
-- Story Review Checklist
+- See the [Creating Checklists](/sops/creating-checklists) SOP for recording processes as checklists.
+- See the [Creating a CAT](/sops/creating-a-cat) SOP for the CAT lesson flow.
+- See the [Activity Ideation](/sops/activity-ideation) SOP for generating activity ideas.
 
 ---
 
-# Review History
+## Review History
 
 | Date | Version | Change | Updated By |
 | --- | --- | --- | --- |
