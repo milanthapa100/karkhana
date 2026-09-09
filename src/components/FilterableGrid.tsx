@@ -3,12 +3,15 @@
 import { useState } from "react";
 import type { Update } from "@/lib/content";
 import type { Sop } from "@/lib/sop";
+import type { Checklist } from "@/lib/checklist";
 import UpdateCard from "./UpdateCard";
 import SopCard from "./SopCard";
+import ChecklistCard from "./ChecklistCard";
 
 type Item =
   | ({ __type: "update" } & Update)
-  | ({ __type: "sop" } & Sop);
+  | ({ __type: "sop" } & Sop)
+  | ({ __type: "checklist" } & Checklist);
 
 export function FilterableGrid({
   items,
@@ -38,6 +41,8 @@ export function FilterableGrid({
             {shown.map((it) =>
               it.__type === "update" ? (
                 <UpdateCard key={`update:${it.slug}`} update={it} />
+              ) : it.__type === "checklist" ? (
+                <ChecklistCard key={`checklist:${it.slug}`} checklist={it} />
               ) : (
                 <SopCard key={`sop:${it.slug}`} sop={it} />
               ),

@@ -1,70 +1,72 @@
 import { notFound } from "next/navigation";
-import { getSop, listSops } from "@/lib/sop";
-import { listChecklists } from "@/lib/checklist";
+import { getChecklist, listChecklists } from "@/lib/checklist";
+import { getSop } from "@/lib/sop";
 import { formatDate } from "@/lib/date";
-import { readingMinutes } from "@/lib/reading";
 import { initials, avatarColor } from "@/lib/avatar";
 import { extractHeadings } from "@/lib/toc";
-import { extractRelated, stripRelatedSection } from "@/lib/related";
 import { Breadcrumbs } from "@/components/Breadcrumbs";
 import { DocsLayout } from "@/components/DocsLayout";
-import { Prose } from "@/components/Prose";
 import { TableOfContents } from "@/components/TableOfContents";
 import { ArticleActions } from "@/components/ArticleActions";
 import { RelatedSops } from "@/components/RelatedSops";
+import { ChecklistView } from "@/components/ChecklistView";
 
-export async function generateMetadata({ params }: { params: Promise<{ slug: string }> }) {
-  const { slug } = await params;
-  const sop = getSop(slug);
-  return {
-    title: sop?.title ?? "SOPs",
-    description: sop?.summary,
-  };
-}
-
-export function generateStaticParams() {
-  return listSops().map((s) => ({ slug: s.slug }));
-}
-
-export default async function SopPage({
+export async function generateMetadata({
   params,
 }: {
   params: Promise<{ slug: string }>;
 }) {
   const { slug } = await params;
-  const sop = getSop(slug);
-  if (!sop) notFound();
+  const checklist = getChecklist(slug);
+  return {
+    title: checklist?.title ?? "Checklists",
+    description: checklist?.summary,
+  };
+}
 
-  const mins = readingMinutes(sop.body);
-  const dateText = formatDate(sop.date);
-  const headings = extractHeadings(sop.body);
-  const related = extractRelated(sop.body);
-  const relatedChecklists = listChecklists()
-    .filter((c) => c.relatedSops.includes(slug))
-    .map((c) => ({ href: `/checklists/${c.slug}`, label: c.title }));
-  const body = stripRelatedSection(sop.body);
-  const editUrl = `https://github.com/milanthapa100/karkhana/edit/main/content/sops/${slug}.md`;
+export function generateStaticParams() {
+  return listChecklists().map((c) => ({ slug: c.slug }));
+}
+
+export default async function ChecklistPage({
+  params,
+}: {
+  params: Promise<{ slug: string }>;
+}) {
+  const { slug } = await params;
+  const checklist = getChecklist(slug);
+  if (!checklist) notFound();
+
+  const dateText = formatDate(checklist.date);
+  const headings = extractHeadings(checklist.body);
+  const relatedSops = checklist.relatedSops
+    .map((s) => getSop(s))
+    .filter((s): s is NonNullable<typeof s> => s !== undefined)
+    .map((s) => ({ href: `/sops/${s.slug}`, label: s.title }));
+  const editUrl = `https://github.com/milanthapa100/karkhana/edit/main/content/checklists/${slug}.md`;
 
   return (
     <div className="mx-auto max-w-6xl">
       <Breadcrumbs
         crumbs={[
-          { label: "SOPs", href: "/sops" },
-          { label: sop.title },
+          { label: "Checklists", href: "/checklists" },
+          { label: checklist.title },
         ]}
       />
 
       <div className="mt-6">
-        <DocsLayout sidebar={headings.length > 0 ? <TableOfContents headings={headings} /> : undefined}>
+        <DocsLayout
+          sidebar={headings.length > 0 ? <TableOfContents headings={headings} /> : undefined}
+        >
           <article className="max-w-3xl">
             <header className="border-b border-ink-200 pb-8 dark:border-ink-800">
               <h1 className="font-display text-3xl font-semibold leading-tight tracking-tight text-ink-900 sm:text-4xl dark:text-white">
-                {sop.title}
+                {checklist.title}
               </h1>
 
-              {sop.summary && (
+              {checklist.summary && (
                 <p className="mt-4 max-w-2xl text-base leading-relaxed text-ink-600 dark:text-ink-300">
-                  {sop.summary}
+                  {checklist.summary}
                 </p>
               )}
 
@@ -72,19 +74,18 @@ export default async function SopPage({
                 <div className="flex items-center gap-x-4 gap-y-3">
                   <div
                     className={`flex h-10 w-10 items-center justify-center rounded-full font-display text-sm font-semibold text-white shadow-sm ${avatarColor(
-                      sop.owner,
+                      checklist.owner,
                     )}`}
                     aria-hidden="true"
                   >
-                    {initials(sop.owner) || "K"}
+                    {initials(checklist.owner) || "K"}
                   </div>
                   <div className="flex flex-col">
                     <span className="text-sm font-medium text-ink-900 dark:text-white">
-                      {sop.owner || "DPK Team"}
+                      {checklist.owner || "DPK Team"}
                     </span>
                     <span className="text-xs text-ink-500 dark:text-ink-400">
                       {dateText}
-                      {mins > 1 ? ` · ${mins} min read` : ""}
                     </span>
                   </div>
                 </div>
@@ -93,9 +94,8 @@ export default async function SopPage({
             </header>
 
             <div className="pt-8">
-              <Prose markdown={body} />
-              <RelatedSops links={related} />
-              <RelatedSops links={relatedChecklists} label="Related Checklists" />
+              <ChecklistView slug={checklist.slug} body={checklist.body} />
+              {relatedSops.length > 0 && <RelatedSops links={relatedSops} />}
             </div>
           </article>
         </DocsLayout>

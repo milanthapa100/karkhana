@@ -1,13 +1,19 @@
 import Link from "next/link";
 import type { RelatedLink } from "@/lib/related";
 
-export function RelatedSops({ links }: { links: RelatedLink[] }) {
+export function RelatedSops({
+  links,
+  label = "Related SOPs",
+}: {
+  links: RelatedLink[];
+  label?: string;
+}) {
   if (!links.length) return null;
 
   return (
     <section className="no-print mt-12 border-t border-ink-200 pt-8 dark:border-ink-800">
       <h2 className="font-display text-lg font-semibold tracking-tight text-ink-900 dark:text-white">
-        Related SOPs
+        {label}
       </h2>
       <p className="mt-1 text-sm text-ink-500 dark:text-ink-400">
         Continue reading across the knowledge base.

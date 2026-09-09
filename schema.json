@@ -10,6 +10,12 @@
       "allowedStatuses": ["draft", "active", "review", "archived"],
       "requiredSections": ["Description", "Steps", "Related"],
       "requiredFields": ["summary", "owner"]
+    },
+    "checklist": {
+      "directory": "content/checklists",
+      "allowedStatuses": ["draft", "active", "review", "archived"],
+      "requiredSections": ["When to use"],
+      "requiredFields": ["summary", "owner"]
     }
   },
   "dateFormat": "YYYY-MM-DD",

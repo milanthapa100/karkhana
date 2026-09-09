@@ -2,7 +2,7 @@ import { readFileSync, readdirSync, existsSync } from "node:fs";
 import { join } from "node:path";
 import matter from "gray-matter";
 
-export type Sop = {
+export type Checklist = {
   slug: string;
   title: string;
   author: string;
@@ -11,10 +11,11 @@ export type Sop = {
   status: string;
   summary: string;
   owner: string;
+  relatedSops: string[];
   body: string;
 };
 
-const SOP_DIR = join(process.cwd(), "content", "sops");
+const CHECKLIST_DIR = join(process.cwd(), "content", "checklists");
 
 function toIsoDate(value: unknown): string {
   if (value instanceof Date && !Number.isNaN(value.getTime())) {
@@ -24,30 +25,44 @@ function toIsoDate(value: unknown): string {
   return str ? str.slice(0, 10) : "";
 }
 
-export function listSops(): Sop[] {
-  if (!existsSync(SOP_DIR)) {
+function toSlugArray(value: unknown): string[] {
+  if (Array.isArray(value)) {
+    return value.map(String).filter(Boolean);
+  }
+  if (typeof value === "string") {
+    return value
+      .split(",")
+      .map((s) => s.trim())
+      .filter(Boolean);
+  }
+  return [];
+}
+
+export function listChecklists(): Checklist[] {
+  if (!existsSync(CHECKLIST_DIR)) {
     return [];
   }
-  const files = readdirSync(SOP_DIR).filter((f) => f.endsWith(".md"));
+  const files = readdirSync(CHECKLIST_DIR).filter((f) => f.endsWith(".md"));
   return files
     .map((file) => {
-      const raw = readFileSync(join(SOP_DIR, file), "utf8");
+      const raw = readFileSync(join(CHECKLIST_DIR, file), "utf8");
       const { data, content } = matter(raw);
       return {
         slug: file.replace(/\.md$/, ""),
         title: String(data.title ?? file),
         author: String(data.author ?? ""),
         date: toIsoDate(data.date),
-        category: String(data.category ?? "sop"),
+        category: String(data.category ?? "checklist"),
         status: String(data.status ?? ""),
         summary: String(data.summary ?? ""),
         owner: String(data.owner ?? ""),
+        relatedSops: toSlugArray(data.relatedSops),
         body: content,
       };
     })
     .sort((a, b) => (a.date < b.date ? 1 : a.date > b.date ? -1 : 0));
 }
 
-export function getSop(slug: string): Sop | undefined {
-  return listSops().find((s) => s.slug === slug);
+export function getChecklist(slug: string): Checklist | undefined {
+  return listChecklists().find((c) => c.slug === slug);
 }
