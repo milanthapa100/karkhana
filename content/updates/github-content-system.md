@@ -1,7 +1,7 @@
 ---
 title: GitHub Content System
 author: Milan
-date: 2026-08-31
+date: 2026-09-09
 category: update
 status: in-progress
 ---
@@ -17,10 +17,14 @@ shown on the Karkhana website, with GitHub as the source of truth.
 - Content workflow defined for the content system.
 - Markdown structure and date format agreed.
 - Validation pipeline built (frontmatter, category, status, date, slug, sections).
-- Next.js website scaffolding added.
+- Three content types live: updates, SOPs, and checklists.
+- Website reads Markdown directly at build and renders statically; pushing to `main` deploys the new content.
+- All content changes go through a branch and Pull Request, with validation and review before merging.
+- Search and the command palette index updates, SOPs, and checklists.
+- Checklists are interactive: checkable items, progress tracking, and per-visitor state saved in the browser.
+- Website is live and receiving new content.
 
 ## Next Steps
 
-- Wire the website to read merged Markdown via the GitHub API.
-- Set up automatic deployment and on-demand revalidation.
 - Add more content types (projects, people, events, resources).
+- Record reviewer and approval history on checklists and SOPs.
