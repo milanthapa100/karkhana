@@ -143,7 +143,7 @@ export function ChecklistView({
               const isDone = !!checked[item.key];
               return (
                 <li key={item.key}>
-                  <label className="group flex cursor-pointer items-start gap-3 rounded-xl border border-ink-200 bg-white p-3.5 transition hover:border-brand-300 dark:border-ink-800 dark:bg-ink-900 dark:hover:border-brand-700">
+                  <label className="group flex cursor-pointer items-start gap-3 rounded-xl border border-ink-200 bg-white p-3.5 transition-colors dark:border-ink-800 dark:bg-ink-900">
                     <input
                       type="checkbox"
                       checked={isDone}
