@@ -10,13 +10,6 @@ status: active
 
 
 
-**SOP Name:** Karkhana Storification  
-**Unit:** DPK Unit  
-**Version:** v0.2  
-**Owner:** Unit Curator  
-**Last Reviewed:** [6th September]
-
----
 
 # 1. Purpose
 
