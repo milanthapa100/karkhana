@@ -133,7 +133,7 @@ export default function AboutPage() {
             <Link
               key={section.href}
               href={section.href}
-              className="group rounded-2xl border border-ink-200/80 bg-white p-5 shadow-2xs transition hover:border-brand-300 hover:shadow-md dark:border-ink-800 dark:bg-ink-900 dark:hover:border-brand-700"
+              className="group rounded-2xl border border-ink-200/80 bg-white p-5 shadow-2xs transition hover:border-ink-300 hover:shadow-md dark:border-ink-800 dark:bg-ink-900 dark:hover:border-ink-700"
             >
               <div className="flex items-center justify-between">
                 <h3 className="font-display text-sm font-semibold text-ink-900 transition-colors group-hover:text-brand-600 dark:text-white dark:group-hover:text-brand-400">
