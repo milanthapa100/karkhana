@@ -7,7 +7,6 @@ status: active
 unit: Design SOP
 ---
 
-# Karkhana Library File, Character Styles & Swatches Design SOP
 
 > This SOP explains how to create, organize, and use **InDesign Library Files, Character Styles, and Swatches** to maintain consistency across Karkhana lessons and book designs.
 
