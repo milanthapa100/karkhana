@@ -6,6 +6,7 @@ owner: Milan
 date: 2026-09-03
 category: sop
 status: active
+unit: Content & Publishing
 ---
 
 ## Description

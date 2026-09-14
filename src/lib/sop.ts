@@ -11,6 +11,7 @@ export type Sop = {
   status: string;
   summary: string;
   owner: string;
+  unit: string;
   body: string;
 };
 
@@ -42,6 +43,7 @@ export function listSops(): Sop[] {
         status: String(data.status ?? ""),
         summary: String(data.summary ?? ""),
         owner: String(data.owner ?? ""),
+        unit: String(data.unit ?? "").trim() || "General",
         body: content,
       };
     })

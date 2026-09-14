@@ -6,6 +6,7 @@ owner: Suprash Thapa
 date: 2026-09-05
 category: sop
 status: active
+unit: Organization
 ---
 
 ## Description

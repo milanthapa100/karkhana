@@ -9,7 +9,7 @@
       "directory": "content/sops",
       "allowedStatuses": ["draft", "active", "review", "archived"],
       "requiredSections": ["Description", "Steps", "Related"],
-      "requiredFields": ["summary", "owner"]
+      "requiredFields": ["summary", "owner", "unit"]
     },
     "checklist": {
       "directory": "content/checklists",
