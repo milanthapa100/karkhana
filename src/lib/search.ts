@@ -21,8 +21,8 @@ export function buildSearchIndex(): SearchItem[] {
     title: s.title,
     href: `/sops/${s.slug}`,
     type: "sop",
-    snippet: s.summary || s.status,
-    searchText: [s.title, s.summary, s.status, s.body]
+    snippet: [s.unit, s.summary].filter(Boolean).join(" · ") || s.status,
+    searchText: [s.title, s.unit, s.summary, s.status, s.body]
       .filter(Boolean)
       .join(" ")
       .replace(/\s+/g, " "),
