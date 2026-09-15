@@ -11,7 +11,6 @@ version: v1.0
 ---
 
 
-# Karkhana Library File, Character Styles & Swatches Design SOP
 
 ## 1. Purpose of This SOP
 
